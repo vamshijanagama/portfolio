@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vamshi Krishna Janagama – Data Scientist</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#04080f;--surface:#080d16;--surface2:#0d1520;--surface3:#111c28;
+  --border:rgba(0,200,150,0.12);--accent:#00c896;--accent2:#00ffbe;
+  --adim:rgba(0,200,150,0.15);--text:#e8f4f0;--muted:#7a9e94;--dim:#3a5a52;
+  --red:#ff6b6b;--blue:#4da6ff;--yellow:#ffd93d;--purple:#c77dff;
+  --mono:'IBM Plex Mono',monospace;--sans:'Syne',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--mono);font-weight:300;line-height:1.7;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,150,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,150,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;display:flex;justify-content:space-between;align-items:center;padding:1rem 3rem;background:rgba(4,8,15,0.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-id{font-size:0.78rem;color:var(--accent);letter-spacing:0.12em}
+.nav-id span{color:var(--muted)}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--accent)}
+.hire-btn{background:var(--accent)!important;color:#04080f!important;padding:0.35rem 1rem;font-weight:500;border-radius:0}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:7rem 3rem 4rem;position:relative;z-index:1}
+.hero-tag{font-size:0.68rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem}
+.hero h1{font-family:var(--sans);font-size:clamp(2.8rem,7vw,6rem);font-weight:800;line-height:1.0;letter-spacing:-0.03em}
+.name-line{display:block}
+.role-line{display:block;color:transparent;-webkit-text-stroke:1px var(--accent);font-size:clamp(1.8rem,4.5vw,3.8rem);margin-top:0.25rem;min-height:1.2em}
+.hero-meta{display:flex;align-items:center;gap:2rem;margin:1.75rem 0;font-size:0.75rem;color:var(--muted);flex-wrap:wrap}
+.meta-sep{color:var(--dim)}
+.pulse{display:inline-block;width:7px;height:7px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;margin-right:4px;vertical-align:middle}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.5)}}
+.hero-desc{max-width:540px;font-size:0.88rem;color:var(--muted);line-height:1.9;margin-bottom:2.5rem}
+.hero-desc strong{color:var(--text);font-weight:400}
+.cta-row{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem}
+.btn-primary{display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.75rem;background:var(--accent);color:#04080f;font-family:var(--mono);font-size:0.73rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:background 0.2s,transform 0.15s}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-2px)}
+.btn-ghost{display:inline-flex;align-items:center;gap:0.5rem;padding:0.7rem 1.75rem;border:1px solid var(--dim);color:var(--muted);font-family:var(--mono);font-size:0.73rem;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;background:none;cursor:pointer;transition:border-color 0.2s,color 0.2s}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.hero-stats{display:flex;gap:3rem;padding-top:2.5rem;border-top:1px solid var(--border)}
+.stat-num{font-family:var(--sans);font-size:1.9rem;font-weight:800;color:var(--accent);line-height:1}
+.stat-lbl{font-size:0.62rem;color:var(--muted);letter-spacing:0.1em;margin-top:0.2rem}
+
+/* SECTION */
+.section{padding:6rem 3rem;max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.sec-label{font-size:0.65rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem}
+.sec-label::before{content:'// ';color:var(--dim)}
+.sec-title{font-family:var(--sans);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;line-height:1.1;letter-spacing:-0.03em;margin-bottom:2.5rem}
+.divider{border:none;border-top:1px solid var(--border);margin:0 3rem}
+
+/* PROJECT CARDS */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem}
+.proj-card{border:1px solid var(--border);background:var(--surface);cursor:pointer;transition:border-color 0.3s,transform 0.25s;overflow:hidden;position:relative}
+.proj-card:hover{border-color:var(--accent);transform:translateY(-4px)}
+.proj-card-shine{position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,200,150,0.04) 0%,transparent 60%);pointer-events:none}
+.proj-top{padding:1.75rem}
+.proj-bottom{padding:1rem 1.75rem 1.5rem;border-top:1px solid var(--border);background:rgba(0,200,150,0.02)}
+.proj-badge{display:inline-block;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);border:1px solid rgba(0,200,150,0.3);padding:0.15rem 0.5rem;margin-bottom:0.75rem}
+.proj-title{font-family:var(--sans);font-weight:800;font-size:1.05rem;line-height:1.2;margin-bottom:0.5rem}
+.proj-desc{font-size:0.77rem;color:var(--muted);line-height:1.8;margin-bottom:1rem}
+.proj-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-bottom:0.75rem}
+.kpi{text-align:center;border:1px solid var(--border);padding:0.5rem;background:var(--surface2)}
+.kpi-val{font-family:var(--sans);font-size:0.95rem;font-weight:800;color:var(--accent2);display:block}
+.kpi-lbl{font-size:0.55rem;color:var(--dim);letter-spacing:0.06em;line-height:1.3}
+.proj-stack{display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:0.75rem}
+.stag{font-size:0.6rem;border:1px solid var(--border);color:var(--dim);padding:0.12rem 0.45rem}
+.proj-cta{display:flex;align-items:center;gap:0.4rem;font-size:0.62rem;color:var(--accent);letter-spacing:0.1em;text-transform:uppercase}
+.proj-cta::after{content:'→';transition:transform 0.2s}
+.proj-card:hover .proj-cta::after{transform:translateX(5px)}
+
+/* ══════════════════════════════════════════════
+   PROJECT SHOWCASE MODAL — THE RECRUITER VIEW
+══════════════════════════════════════════════ */
+.showcase-overlay{position:fixed;inset:0;z-index:500;opacity:0;pointer-events:none;transition:opacity 0.3s;display:flex;flex-direction:column}
+.showcase-overlay.open{opacity:1;pointer-events:all}
+.showcase-backdrop{position:absolute;inset:0;background:rgba(4,8,15,0.96)}
+.showcase-panel{position:relative;width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden}
+
+/* top bar */
+.sc-topbar{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0}
+.sc-breadcrumb{font-size:0.7rem;color:var(--muted);letter-spacing:0.1em}
+.sc-breadcrumb span{color:var(--accent)}
+.sc-controls{display:flex;gap:0.75rem;align-items:center}
+.sc-tab{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.9rem;border:1px solid var(--border);color:var(--muted);background:none;cursor:pointer;transition:all 0.2s}
+.sc-tab.active{background:var(--accent);color:#04080f;border-color:var(--accent);font-weight:500}
+.sc-tab:hover:not(.active){border-color:var(--accent);color:var(--accent)}
+.sc-close{background:none;border:1px solid var(--border);color:var(--muted);width:32px;height:32px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;font-family:var(--mono);transition:all 0.2s}
+.sc-close:hover{border-color:var(--accent);color:var(--accent)}
+
+/* content area */
+.sc-content{flex:1;overflow-y:auto;padding:2rem;display:none}
+.sc-content.active{display:block}
+
+/* overview tab */
+.sc-overview-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:2rem;margin-bottom:2rem}
+.sc-hero-box{border:1px solid var(--border);padding:1.75rem;background:var(--surface)}
+.sc-hero-title{font-family:var(--sans);font-weight:800;font-size:1.6rem;line-height:1.2;margin-bottom:0.5rem}
+.sc-hero-sub{font-size:0.8rem;color:var(--muted);line-height:1.8;margin-bottom:1.25rem}
+.sc-kpi-row{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem}
+.sc-kpi-card{border:1px solid var(--border);padding:1rem;background:var(--surface2);text-align:center}
+.sc-kpi-num{font-family:var(--sans);font-size:1.75rem;font-weight:800;color:var(--accent2);display:block;line-height:1}
+.sc-kpi-desc{font-size:0.62rem;color:var(--muted);letter-spacing:0.08em;margin-top:0.3rem}
+.sc-arch-box{border:1px solid var(--border);padding:1.5rem;background:var(--surface)}
+.sc-section-lbl{font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem}
+.sc-section-lbl::before{content:'// ';color:var(--dim)}
+
+/* talking points */
+.talking-points{display:flex;flex-direction:column;gap:0.6rem;margin-top:1rem}
+.tp-item{display:flex;gap:0.75rem;align-items:flex-start;padding:0.75rem;border:1px solid var(--border);background:var(--surface2);cursor:pointer;transition:border-color 0.2s}
+.tp-item:hover{border-color:var(--accent)}
+.tp-num{font-family:var(--sans);font-size:0.8rem;font-weight:800;color:var(--accent);flex-shrink:0;width:20px}
+.tp-text{font-size:0.78rem;color:var(--muted);line-height:1.6}
+.tp-text strong{color:var(--text);font-weight:400}
+
+/* chart tab */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.chart-card{border:1px solid var(--border);padding:1.5rem;background:var(--surface)}
+.chart-card-title{font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+.chart-card-title::before{content:'// ';color:var(--dim)}
+.chart-wrap{position:relative;width:100%;height:200px}
+.chart-full{height:280px}
+.insight-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-top:1.5rem}
+.insight-card{border:1px solid var(--border);padding:0.85rem;background:var(--surface2);text-align:center}
+.ins-val{font-family:var(--sans);font-size:1.2rem;font-weight:800;color:var(--accent2);display:block}
+.ins-lbl{font-size:0.58rem;color:var(--dim);letter-spacing:0.08em}
+
+/* demo tab */
+.demo-box{border:1px solid var(--border);padding:1.5rem;background:var(--surface);margin-bottom:1.5rem}
+.demo-title-bar{font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+.demo-title-bar::before{content:'// ';color:var(--dim)}
+.demo-row{display:flex;gap:0.75rem;margin-bottom:0.75rem;flex-wrap:wrap}
+.demo-input{flex:1;min-width:200px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:0.75rem;padding:0.55rem 0.85rem;outline:none}
+.demo-input:focus{border-color:var(--accent)}
+.demo-run{background:var(--accent);color:#04080f;border:none;font-family:var(--mono);font-size:0.7rem;font-weight:500;padding:0.55rem 1.1rem;cursor:pointer;letter-spacing:0.08em;white-space:nowrap;transition:background 0.2s}
+.demo-run:hover{background:var(--accent2)}
+.result-item{background:var(--bg);border:1px solid var(--border);padding:0.65rem 0.85rem;display:flex;justify-content:space-between;align-items:center;font-size:0.72rem;margin-bottom:0.35rem;transition:border-color 0.2s}
+.result-item.top{border-color:var(--accent)}
+.result-text{color:var(--muted);flex:1;margin-right:0.75rem;line-height:1.5}
+.result-score{font-family:var(--sans);font-weight:800;color:var(--accent2);font-size:0.85rem;flex-shrink:0}
+.result-bar-bg{width:44px;height:3px;background:var(--border);margin-left:0.5rem;flex-shrink:0}
+.result-bar-fill{height:100%;background:var(--accent);transition:width 0.6s ease}
+.anom-sliders{display:flex;flex-direction:column;gap:0.65rem;margin-bottom:1rem}
+.slider-row{display:flex;align-items:center;gap:1rem}
+.slider-row label{font-size:0.65rem;color:var(--muted);min-width:140px;letter-spacing:0.06em}
+.slider-row input[type=range]{flex:1}
+.slider-val{font-size:0.7rem;color:var(--accent);min-width:28px;text-align:right}
+.anom-result{background:var(--bg);border:1px solid var(--border);padding:1rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+.anom-score-num{font-family:var(--sans);font-size:2.2rem;font-weight:800;transition:color 0.3s;line-height:1}
+.anom-score-lbl{font-size:0.55rem;color:var(--muted);letter-spacing:0.12em;margin-top:0.2rem}
+.anom-status{font-family:var(--sans);font-size:1rem;font-weight:700;transition:color 0.3s}
+.anom-bar-wrap{flex:1;min-width:100px}
+.anom-bar-lbl{font-size:0.55rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:0.4rem}
+.anom-bar-bg{height:6px;background:var(--border)}
+.anom-bar-fill{height:100%;transition:width 0.4s,background 0.3s}
+
+/* code tab */
+.code-tabs{display:flex;gap:0;margin-bottom:0;border-bottom:1px solid var(--border)}
+.code-tab{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;padding:0.5rem 1rem;border:none;background:none;color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s}
+.code-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.code-tab:hover:not(.active){color:var(--muted)}
+.code-panel{display:none;background:var(--surface2);border:1px solid var(--border);border-top:none;padding:1.25rem;overflow-x:auto;font-size:0.73rem;line-height:1.85;position:relative}
+.code-panel.active{display:block}
+.code-panel pre{margin:0;white-space:pre}
+.code-file-lbl{position:absolute;top:0.75rem;right:1rem;font-size:0.58rem;letter-spacing:0.15em;color:var(--dim);text-transform:uppercase}
+.kw{color:#c77dff}.fn{color:var(--accent2)}.st{color:#ffd93d}.cm{color:var(--dim);font-style:italic}.nb{color:#4da6ff}.nu{color:#ff9e64}
+
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem}
+.skill-group{border:1px solid var(--border);padding:1.5rem;background:var(--surface)}
+.sg-name{font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1.25rem;padding-bottom:0.65rem;border-bottom:1px solid var(--border)}
+.skill-row{margin-bottom:0.85rem}
+.skill-top{display:flex;justify-content:space-between;margin-bottom:0.3rem}
+.skill-name{font-size:0.78rem;color:var(--text)}
+.skill-pct{font-size:0.65rem;color:var(--accent)}
+.skill-bg{height:2px;background:rgba(0,200,150,0.08)}
+.skill-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0;transition:width 1.4s cubic-bezier(0.4,0,0.2,1)}
+
+/* EXP */
+.exp-list{display:flex;flex-direction:column;gap:1.5rem}
+.exp-card{border:1px solid var(--border);padding:1.75rem;background:var(--surface);position:relative;overflow:hidden;transition:border-color 0.3s}
+.exp-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--accent);opacity:0;transition:opacity 0.3s}
+.exp-card:hover::before{opacity:1}
+.exp-header{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap;margin-bottom:0.4rem}
+.exp-role{font-family:var(--sans);font-weight:800;font-size:1.05rem}
+.exp-period{font-size:0.65rem;color:var(--accent);border:1px solid var(--border);padding:0.18rem 0.55rem;white-space:nowrap}
+.exp-company{font-size:0.76rem;color:var(--muted);margin-bottom:0.85rem}
+.exp-bullets{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+.exp-bullets li{font-size:0.77rem;color:var(--muted);padding-left:1.2rem;position:relative;line-height:1.7}
+.exp-bullets li::before{content:'›';position:absolute;left:0;color:var(--accent)}
+
+/* EDU */
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.info-card{border:1px solid var(--border);padding:1.5rem;background:var(--surface)}
+.info-lbl{font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:0.7rem}
+.info-title{font-family:var(--sans);font-weight:700;font-size:0.9rem;margin-bottom:0.25rem;line-height:1.3}
+.info-sub{font-size:0.73rem;color:var(--muted);margin-bottom:0.2rem}
+.info-period{font-size:0.62rem;color:var(--accent)}
+.pub-acc{display:inline-block;margin-top:0.75rem;font-size:0.65rem;color:var(--accent2);border:1px solid rgba(0,255,190,0.2);padding:0.2rem 0.6rem}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;align-items:start}
+.contact-blurb{font-size:0.83rem;color:var(--muted);line-height:1.9;margin-bottom:2rem}
+.contact-links{display:flex;flex-direction:column}
+.contact-link{display:flex;align-items:center;gap:1rem;text-decoration:none;color:var(--muted);font-size:0.76rem;padding:0.8rem 0;border-bottom:1px solid var(--border);transition:color 0.2s}
+.contact-link:hover{color:var(--accent)}
+.link-icon{width:1.65rem;height:1.65rem;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.6rem;color:var(--accent);flex-shrink:0}
+
+.float-dl{position:fixed;bottom:2rem;right:2rem;z-index:400;display:flex;align-items:center;gap:0.5rem;padding:0.7rem 1.3rem;background:var(--accent);color:#04080f;font-family:var(--mono);font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;border:none;transition:background 0.2s,transform 0.2s;box-shadow:0 0 20px rgba(0,200,150,0.2)}
+.float-dl:hover{background:var(--accent2);transform:translateY(-2px)}
+footer{border-top:1px solid var(--border);padding:1.5rem 3rem;display:flex;justify-content:space-between;font-size:0.62rem;color:var(--dim);letter-spacing:0.08em;position:relative;z-index:1}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.6s ease,transform 0.6s ease}
+.reveal.in{opacity:1;transform:none}
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}.nav-links{gap:1rem}
+  .hero,.section{padding-left:1.5rem;padding-right:1.5rem}
+  .edu-grid,.contact-grid,.sc-overview-grid,.charts-grid{grid-template-columns:1fr}
+  footer{flex-direction:column;gap:0.5rem}
+  .divider{margin:0 1.5rem}
+  .hero-stats{gap:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-id"><span>~/</span>vamshi-janagama</div>
+  <ul class="nav-links">
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="/cdn-cgi/l/email-protection#d7a1b6baa4bfbebdb6b9b6b0b6bab6e5ef97b0bab6bebbf9b4b8ba" class="hire-btn">Hire Me</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">[ MS Data Science · University of Houston · 2026 ]</div>
+  <h1>
+    <span class="name-line">Vamshi Krishna</span>
+    <span class="name-line">Janagama</span>
+    <span class="role-line" id="role-text">Data Scientist</span>
+  </h1>
+  <div class="hero-meta">
+    <span>Houston, TX</span><span class="meta-sep">—</span>
+    <span>ML · LLMs · Data Engineering</span><span class="meta-sep">—</span>
+    <span><span class="pulse"></span>Open to full-time roles</span>
+  </div>
+  <p class="hero-desc">Building <strong>AI-powered data systems</strong> — from distributed ETL pipelines processing millions of records to RAG infrastructure and production ML models. I turn raw data into decisions that scale.</p>
+  <div class="cta-row">
+    <a href="#experience" class="btn-primary">↓ View Experience</a>
+    <a href="/cdn-cgi/l/email-protection#a6d0c7cbd5cecfccc7c8c7c1c7cbc7949ee6c1cbc7cfca88c5c9cb" class="btn-ghost">Get in touch</a>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-num">2+</div><div class="stat-lbl">Years experience</div></div>
+    <div><div class="stat-num">3</div><div class="stat-lbl">AI/ML projects</div></div>
+    <div><div class="stat-num">1</div><div class="stat-lbl">IEEE publication</div></div>
+    <div><div class="stat-num">97.1%</div><div class="stat-lbl">Best accuracy</div></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- EXPERIENCE — INTERACTIVE -->
+<section class="section" id="experience">
+  <div class="reveal">
+    <div class="sec-label">Experience</div>
+    <h2 class="sec-title">Where I've worked.</h2>
+  </div>
+
+  <!-- Timeline + Detail layout -->
+  <div style="display:grid;grid-template-columns:280px 1fr;gap:0;border:1px solid var(--border);background:var(--surface)" class="reveal" id="exp-container">
+
+    <!-- LEFT: Timeline nav -->
+    <div style="border-right:1px solid var(--border);display:flex;flex-direction:column">
+
+      <!-- Job 1 -->
+      <div class="exp-nav-item active" id="exp-nav-0" onclick="selectExp(0)" style="padding:1.5rem;cursor:pointer;border-bottom:1px solid var(--border);transition:background 0.2s;position:relative">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);transition:opacity 0.2s" id="exp-bar-0"></div>
+        <div style="font-size:0.58rem;letter-spacing:0.15em;color:var(--accent);text-transform:uppercase;margin-bottom:0.4rem">Aug 2024 – Present</div>
+        <div style="font-family:var(--sans);font-weight:700;font-size:0.9rem;margin-bottom:0.2rem;color:var(--text)">Graduate Data Scientist</div>
+        <div style="font-size:0.72rem;color:var(--muted)">University of Houston</div>
+        <div style="font-size:0.65rem;color:var(--dim);margin-top:0.3rem">Houston, TX · Full-time</div>
+        <!-- active indicator dot -->
+        <div style="position:absolute;right:1rem;top:50%;transform:translateY(-50%);width:6px;height:6px;background:var(--accent);border-radius:50%;transition:opacity 0.2s" id="exp-dot-0"></div>
+      </div>
+
+      <!-- Job 2 -->
+      <div class="exp-nav-item" id="exp-nav-1" onclick="selectExp(1)" style="padding:1.5rem;cursor:pointer;border-bottom:1px solid var(--border);transition:background 0.2s;position:relative;opacity:0.55">
+        <div style="position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);opacity:0;transition:opacity 0.2s" id="exp-bar-1"></div>
+        <div style="font-size:0.58rem;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;margin-bottom:0.4rem">Apr 2023 – Apr 2024</div>
+        <div style="font-family:var(--sans);font-weight:700;font-size:0.9rem;margin-bottom:0.2rem;color:var(--text)">Data Scientist</div>
+        <div style="font-size:0.72rem;color:var(--muted)">Key Care Drugs Pvt Ltd</div>
+        <div style="font-size:0.65rem;color:var(--dim);margin-top:0.3rem">Hyderabad, India · Full-time</div>
+        <div style="position:absolute;right:1rem;top:50%;transform:translateY(-50%);width:6px;height:6px;background:var(--accent);border-radius:50%;opacity:0;transition:opacity 0.2s" id="exp-dot-1"></div>
+      </div>
+
+      <!-- Overall impact stats at bottom -->
+      <div style="padding:1.25rem;margin-top:auto;border-top:1px solid var(--border);background:var(--surface2)">
+        <div style="font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--dim);margin-bottom:0.75rem">Combined Impact</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem">
+          <div style="text-align:center;border:1px solid var(--border);padding:0.5rem;background:var(--bg)">
+            <div style="font-family:var(--sans);font-size:1.1rem;font-weight:800;color:var(--accent2)">2+</div>
+            <div style="font-size:0.55rem;color:var(--dim);letter-spacing:0.06em">Years</div>
+          </div>
+          <div style="text-align:center;border:1px solid var(--border);padding:0.5rem;background:var(--bg)">
+            <div style="font-family:var(--sans);font-size:1.1rem;font-weight:800;color:var(--accent2)">100K+</div>
+            <div style="font-size:0.55rem;color:var(--dim);letter-spacing:0.06em">Records</div>
+          </div>
+          <div style="text-align:center;border:1px solid var(--border);padding:0.5rem;background:var(--bg)">
+            <div style="font-family:var(--sans);font-size:1.1rem;font-weight:800;color:var(--accent2)">90%</div>
+            <div style="font-size:0.55rem;color:var(--dim);letter-spacing:0.06em">Quality ↑</div>
+          </div>
+          <div style="text-align:center;border:1px solid var(--border);padding:0.5rem;background:var(--bg)">
+            <div style="font-family:var(--sans);font-size:1.1rem;font-weight:800;color:var(--accent2)">35%</div>
+            <div style="font-size:0.55rem;color:var(--dim);letter-spacing:0.06em">Query ↑</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Detail panel -->
+    <div style="display:flex;flex-direction:column">
+
+      <!-- Exp 0 panel -->
+      <div id="exp-panel-0" style="padding:2rem;display:flex;flex-direction:column;gap:1.5rem">
+        <!-- Header -->
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)">
+          <div>
+            <div style="font-family:var(--sans);font-size:1.4rem;font-weight:800;margin-bottom:0.3rem">Graduate Data Scientist</div>
+            <div style="font-size:0.82rem;color:var(--muted)">University of Houston – Athletics &amp; Academic Services · Houston, TX</div>
+          </div>
+          <div style="font-size:0.65rem;color:var(--accent);border:1px solid var(--border);padding:0.25rem 0.75rem;white-space:nowrap;height:fit-content">Aug 2024 – Present</div>
+        </div>
+
+        <!-- Achievements with animated counters -->
+        <div>
+          <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem">// Key Achievements</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:1.25rem">
+            <div style="border:1px solid var(--border);padding:0.85rem;background:var(--surface2);text-align:center">
+              <div class="exp-counter" data-target="35" style="font-family:var(--sans);font-size:1.6rem;font-weight:800;color:var(--accent2);line-height:1">0%</div>
+              <div style="font-size:0.58rem;color:var(--muted);letter-spacing:0.08em;margin-top:0.2rem">Query perf improvement</div>
+            </div>
+            <div style="border:1px solid var(--border);padding:0.85rem;background:var(--surface2);text-align:center">
+              <div class="exp-counter" data-target="30" style="font-family:var(--sans);font-size:1.6rem;font-weight:800;color:var(--accent2);line-height:1">0%</div>
+              <div style="font-size:0.58rem;color:var(--muted);letter-spacing:0.08em;margin-top:0.2rem">Manual prep time saved</div>
+            </div>
+            <div style="border:1px solid var(--border);padding:0.85rem;background:var(--surface2);text-align:center">
+              <div style="font-family:var(--sans);font-size:1.6rem;font-weight:800;color:var(--accent2);line-height:1">5+</div>
+              <div style="font-size:0.58rem;color:var(--muted);letter-spacing:0.08em;margin-top:0.2rem">Data sources integrated</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Impact bullets — click to expand detail -->
+        <div>
+          <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem">// What I Built — click any item to expand</div>
+          <div id="uh-bullets" style="display:flex;flex-direction:column;gap:0.5rem"></div>
+        </div>
+
+        <!-- Tech used -->
+        <div style="padding-top:1rem;border-top:1px solid var(--border)">
+          <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:0.6rem">// Technologies Used</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.4rem">
+            <span style="font-size:0.65rem;border:1px solid rgba(0,200,150,0.3);color:var(--accent);padding:0.2rem 0.55rem">Python</span>
+            <span style="font-size:0.65rem;border:1px solid rgba(0,200,150,0.3);color:var(--accent);padding:0.2rem 0.55rem">SQL</span>
+            <span style="font-size:0.65rem;border:1px solid rgba(0,200,150,0.3);color:var(--accent);padding:0.2rem 0.55rem">ETL Pipelines</span>
+            <span style="font-size:0.65rem;border:1px solid var(--border);color:var(--dim);padding:0.2rem 0.55rem">Power BI</span>
+            <span style="font-size:0.65rem;border:1px solid var(--border);color:var(--dim);padding:0.2rem 0.55rem">FAISS</span>
+            <span style="font-size:0.65rem;border:1px solid var(--border);color:var(--dim);padding:0.2rem 0.55rem">PostgreSQL</span>
+            <span style="font-size:0.65rem;border:1px solid var(--border);color:var(--dim);padding:0.2rem 0.55rem">Pandas</span>
+            <span style="font-size:0.65rem;border:1px solid var(--border);color:var(--dim);padding:0.2rem 0.55rem">NumPy</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exp 1 panel -->
+      <div id="exp-panel-1" style="padding:2rem;display:none;flex-direction:column;gap:1.5rem">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)">
+          <div>
+            <div style="font-family:var(--sans);font-size:1.4rem;font-weight:800;margin-bottom:0.3rem">Data Scientist</div>
+            <div style="font-size:0.82rem;color:var(--muted)">Key Care Drugs Pvt Limited · Hyderabad, India</div>
+          </div>
+          <div style="font-size:0.65rem;color:var(--accent);border:1px solid var(--border);padding:0.25rem 0.75rem;white-space:nowrap;height:fit-content">Apr 2023 – Apr 2024</div>
+        </div>
+
+        <div>
+          <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem">// Key Achievements</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-bottom:1.25rem">
+            <div style="border:1px solid var(--border);padding:0.85rem;background:var(--surface2);text-align:center">
+              <div class="exp-counter" data-target="90" style="font-family:var(--sans);font-size:1.6rem;font-weight:800;color:var(--accent2);line-height:1">0%</div>
+              <div style="font-size:0.58rem;color:var(--muted);letter-spacing:0.08em;margin-top:0.2rem">Data quality improved</div>
+            </div>
+            <div style="border:1px solid var(--border);padding:0.85rem;background:var(--surface2);text-align:center">
+              <div class="exp-counter" data-target="18" style="font-family:var(--sans);font-size:1.6rem;font-weight:800;color:var(--accent2);line-height:1">0%</div>
+              <div style="font-size:0.58rem;color:var(--muted);letter-spacing:0.08em;margin-top:0.2rem">Forecasting accuracy ↑</div>
+            </div>
+            <div style="border:1px solid var(--border);padding:0.85rem;background:var(--surface2);text-align:center">
+              <div style="font-family:var(--sans);font-size:1.6rem;font-weight:800;color:var(--accent2);line-height:1">ML</div>
+              <div style="font-size:0.58rem;color:var(--muted);letter-spacing:0.08em;margin-top:0.2rem">Predictive models shipped</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem">// What I Built — click any item to expand</div>
+          <div id="kc-bullets" style="display:flex;flex-direction:column;gap:0.5rem"></div>
+        </div>
+
+        <div style="padding-top:1rem;border-top:1px solid var(--border)">
+          <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:0.6rem">// Technologies Used</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.4rem">
+            <span style="font-size:0.65rem;border:1px solid rgba(0,200,150,0.3);color:var(--accent);padding:0.2rem 0.55rem">Python</span>
+            <span style="font-size:0.65rem;border:1px solid rgba(0,200,150,0.3);color:var(--accent);padding:0.2rem 0.55rem">SQL</span>
+            <span style="font-size:0.65rem;border:1px solid rgba(0,200,150,0.3);color:var(--accent);padding:0.2rem 0.55rem">Scikit-learn</span>
+            <span style="font-size:0.65rem;border:1px solid var(--border);color:var(--dim);padding:0.2rem 0.55rem">MLflow</span>
+            <span style="font-size:0.65rem;border:1px solid var(--border);color:var(--dim);padding:0.2rem 0.55rem">Pandas</span>
+            <span style="font-size:0.65rem;border:1px solid var(--border);color:var(--dim);padding:0.2rem 0.55rem">XGBoost</span>
+            <span style="font-size:0.65rem;border:1px solid var(--border);color:var(--dim);padding:0.2rem 0.55rem">Power BI</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+.exp-nav-item:hover{background:rgba(0,200,150,0.04)!important}
+.exp-bullet-item{border:1px solid var(--border);padding:0.75rem 1rem;background:var(--bg);cursor:pointer;transition:border-color 0.2s,background 0.2s}
+.exp-bullet-item:hover{border-color:rgba(0,200,150,0.3);background:rgba(0,200,150,0.03)}
+.exp-bullet-item.open{border-color:var(--accent);background:rgba(0,200,150,0.04)}
+.exp-bullet-header{display:flex;align-items:flex-start;gap:0.75rem}
+.exp-bullet-icon{font-size:0.7rem;color:var(--accent);flex-shrink:0;margin-top:0.1rem;transition:transform 0.25s}
+.exp-bullet-item.open .exp-bullet-icon{transform:rotate(90deg)}
+.exp-bullet-title{font-size:0.8rem;color:var(--text);line-height:1.5;flex:1}
+.exp-bullet-detail{display:none;margin-top:0.65rem;padding-top:0.65rem;border-top:1px solid var(--border);font-size:0.74rem;color:var(--muted);line-height:1.8;padding-left:1.35rem}
+.exp-bullet-item.open .exp-bullet-detail{display:block}
+</style>
+
+
+<hr class="divider">
+
+<!-- PROJECTS -->
+<section class="section" id="projects">
+  <div class="reveal">
+    <div class="sec-label">Projects</div>
+    <h2 class="sec-title">Click to see full results,<br>live demos & architecture.</h2>
+    <p style="font-size:0.78rem;color:var(--muted);margin-top:-1.5rem;margin-bottom:2.5rem">Perfect for recruiter calls — real charts, live demos, code walkthroughs.</p>
+  </div>
+  <div class="proj-grid">
+
+    <div class="proj-card reveal" onclick="openShowcase('rag')">
+      <div class="proj-card-shine"></div>
+      <div class="proj-top">
+        <div class="proj-badge">AI · LLM Systems</div>
+        <div class="proj-title">AI Retrieval Pipeline (RAG)</div>
+        <p class="proj-desc">End-to-end RAG with FAISS vector indexing, MMR retrieval, LLM generation and benchmarked evaluation framework.</p>
+        <div class="proj-kpis">
+          <div class="kpi"><span class="kpi-val">+22%</span><span class="kpi-lbl">retrieval accuracy</span></div>
+          <div class="kpi"><span class="kpi-val">~60%</span><span class="kpi-lbl">noise reduced</span></div>
+          <div class="kpi"><span class="kpi-val">0.91</span><span class="kpi-lbl">faithfulness</span></div>
+        </div>
+      </div>
+      <div class="proj-bottom">
+        <div class="proj-stack"><span class="stag">FAISS</span><span class="stag">LangChain</span><span class="stag">GPT-4</span><span class="stag">FastAPI</span><span class="stag">Python</span></div>
+        <div class="proj-cta">Open full showcase — charts, demo, code</div>
+      </div>
+    </div>
+
+    <div class="proj-card reveal" onclick="openShowcase('spark')">
+      <div class="proj-card-shine"></div>
+      <div class="proj-top">
+        <div class="proj-badge">Data Engineering · ML</div>
+        <div class="proj-title">Distributed Risk Prediction Pipeline</div>
+        <p class="proj-desc">PySpark ETL on 1M+ records with 48-feature engineering, XGBoost+LightGBM ensemble and SHAP explainability.</p>
+        <div class="proj-kpis">
+          <div class="kpi"><span class="kpi-val">0.91</span><span class="kpi-lbl">AUC-ROC</span></div>
+          <div class="kpi"><span class="kpi-val">1M+</span><span class="kpi-lbl">records</span></div>
+          <div class="kpi"><span class="kpi-val">48</span><span class="kpi-lbl">features built</span></div>
+        </div>
+      </div>
+      <div class="proj-bottom">
+        <div class="proj-stack"><span class="stag">PySpark</span><span class="stag">XGBoost</span><span class="stag">LightGBM</span><span class="stag">SHAP</span><span class="stag">MLflow</span></div>
+        <div class="proj-cta">Open full showcase — model metrics, SHAP, code</div>
+      </div>
+    </div>
+
+    <div class="proj-card reveal" onclick="openShowcase('anomaly')">
+      <div class="proj-card-shine"></div>
+      <div class="proj-top">
+        <div class="proj-badge">ML Engineering · Analytics</div>
+        <div class="proj-title">Multi-Modal Anomaly Detection Engine</div>
+        <p class="proj-desc">IsolationForest + LOF + Statistical ensemble achieving 95%+ detection. 4× faster than Pandas baseline via PySpark.</p>
+        <div class="proj-kpis">
+          <div class="kpi"><span class="kpi-val">4×</span><span class="kpi-lbl">faster</span></div>
+          <div class="kpi"><span class="kpi-val">95%+</span><span class="kpi-lbl">detected</span></div>
+          <div class="kpi"><span class="kpi-val">&lt;3%</span><span class="kpi-lbl">false positive</span></div>
+        </div>
+      </div>
+      <div class="proj-bottom">
+        <div class="proj-stack"><span class="stag">PySpark</span><span class="stag">IsolationForest</span><span class="stag">LOF</span><span class="stag">FastAPI</span><span class="stag">WebSocket</span></div>
+        <div class="proj-cta">Open full showcase — live detector, benchmarks</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SHOWCASE MODAL — RAG PIPELINE
+═══════════════════════════════════════ -->
+<div class="showcase-overlay" id="sc-rag">
+  <div class="showcase-backdrop" onclick="closeShowcase('rag')"></div>
+  <div class="showcase-panel">
+    <div class="sc-topbar">
+      <div class="sc-breadcrumb">Portfolio / <span>RAG Pipeline</span></div>
+      <div class="sc-controls">
+        <button class="sc-tab active" onclick="switchTab('rag','overview',this)">Overview</button>
+        <button class="sc-tab" onclick="switchTab('rag','charts',this)">Results & Charts</button>
+        <button class="sc-tab" onclick="switchTab('rag','demo',this)">Live Demo</button>
+        <button class="sc-tab" onclick="switchTab('rag','code',this)">Code Walkthrough</button>
+        <a href="https://github.com/vamshijanagama/rag-pipeline" target="_blank" class="btn-primary" style="font-size:0.65rem;padding:0.35rem 0.9rem">↗ GitHub</a>
+        <button class="sc-close" onclick="closeShowcase('rag')">✕</button>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="sc-content active" id="rag-overview">
+      <div class="sc-overview-grid">
+        <div>
+          <div class="sc-hero-box" style="margin-bottom:1.25rem">
+            <div class="sc-hero-title">AI Retrieval Pipeline<br>(RAG Infrastructure)</div>
+            <div class="sc-hero-sub">End-to-end enterprise RAG system built from scratch. Ingests 100K+ documents, embeds via OpenAI ada-002, indexes with FAISS IVF, retrieves using Maximal Marginal Relevance, and generates grounded answers via GPT-4. Benchmarked against BM25 baseline across 5 retrieval metrics.</div>
+            <div class="sc-kpi-row">
+              <div class="sc-kpi-card"><span class="sc-kpi-num" style="color:#00ffbe">+22%</span><div class="sc-kpi-desc">Retrieval accuracy improvement over BM25 baseline</div></div>
+              <div class="sc-kpi-card"><span class="sc-kpi-num" style="color:#00ffbe">~60%</span><div class="sc-kpi-desc">Reduction in irrelevant search results</div></div>
+              <div class="sc-kpi-card"><span class="sc-kpi-num" style="color:#00ffbe">0.91</span><div class="sc-kpi-desc">Faithfulness score (LLM-as-judge evaluation)</div></div>
+            </div>
+          </div>
+          <div class="sc-arch-box">
+            <div class="sc-section-lbl">Architecture Flow</div>
+            <svg width="100%" viewBox="0 0 640 130" style="display:block">
+              <defs><marker id="ra" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+              <rect x="5" y="45" width="85" height="40" rx="3" fill="rgba(0,200,150,0.12)" stroke="#00c896" stroke-width="0.8"/><text x="47" y="62" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#00c896">Documents</text><text x="47" y="76" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a52">100K+</text>
+              <line x1="90" y1="65" x2="108" y2="65" stroke="rgba(0,200,150,0.5)" stroke-width="1" marker-end="url(#ra)"/>
+              <rect x="110" y="45" width="90" height="40" rx="3" fill="rgba(0,200,150,0.07)" stroke="rgba(0,200,150,0.3)" stroke-width="0.8"/><text x="155" y="62" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#7a9e94">Chunk +</text><text x="155" y="75" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#7a9e94">Embed</text>
+              <line x1="200" y1="65" x2="218" y2="65" stroke="rgba(0,200,150,0.5)" stroke-width="1" marker-end="url(#ra)"/>
+              <rect x="220" y="45" width="90" height="40" rx="3" fill="rgba(0,200,150,0.07)" stroke="rgba(0,200,150,0.3)" stroke-width="0.8"/><text x="265" y="62" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#7a9e94">FAISS IVF</text><text x="265" y="75" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a52">1536-dim</text>
+              <line x1="310" y1="65" x2="328" y2="65" stroke="rgba(0,200,150,0.5)" stroke-width="1" marker-end="url(#ra)"/>
+              <rect x="330" y="45" width="85" height="40" rx="3" fill="rgba(199,125,255,0.1)" stroke="rgba(199,125,255,0.4)" stroke-width="0.8"/><text x="372" y="62" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#c77dff">MMR</text><text x="372" y="75" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#8a5a9e">k=5</text>
+              <line x1="415" y1="65" x2="433" y2="65" stroke="rgba(0,200,150,0.5)" stroke-width="1" marker-end="url(#ra)"/>
+              <rect x="435" y="45" width="80" height="40" rx="3" fill="rgba(0,200,150,0.07)" stroke="rgba(0,200,150,0.3)" stroke-width="0.8"/><text x="475" y="62" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#7a9e94">Re-rank</text><text x="475" y="75" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a52">BM25</text>
+              <line x1="515" y1="65" x2="533" y2="65" stroke="rgba(0,200,150,0.5)" stroke-width="1" marker-end="url(#ra)"/>
+              <rect x="535" y="45" width="90" height="40" rx="3" fill="rgba(0,200,150,0.12)" stroke="#00c896" stroke-width="0.8"/><text x="580" y="62" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#00c896">LLM</text><text x="580" y="75" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a52">GPT-4</text>
+              <text x="47" y="105" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a52">Ingestion</text>
+              <text x="265" y="105" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a52">Vector Store</text>
+              <text x="475" y="105" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a52">Retrieval</text>
+              <text x="580" y="105" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a52">Generation</text>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="sc-arch-box">
+            <div class="sc-section-lbl">Key Talking Points for Recruiter Call</div>
+            <div class="talking-points">
+              <div class="tp-item"><div class="tp-num">1</div><div class="tp-text"><strong>Why MMR over top-k?</strong> Standard cosine top-k returns redundant results. MMR balances relevance and diversity — λ=0.7 weights relevance higher, giving varied context to the LLM and improving answer quality.</div></div>
+              <div class="tp-item"><div class="tp-num">2</div><div class="tp-text"><strong>Why FAISS IVF over Flat?</strong> Flat is O(n) — unusable at 100K+ vectors. IVF partitions space into 100 clusters (nlist), searches only nprobe=10, giving sub-linear lookup with <2% accuracy loss.</div></div>
+              <div class="tp-item"><div class="tp-num">3</div><div class="tp-text"><strong>How did you evaluate it?</strong> Built a full eval suite — MRR@5, NDCG@10, Precision/Recall + faithfulness scoring using GPT-4 as judge. Compared against BM25 baseline on 50-query test set.</div></div>
+              <div class="tp-item"><div class="tp-num">4</div><div class="tp-text"><strong>Production considerations?</strong> FastAPI with streaming endpoint, index persistence (save/load), batch ingestion with checkpointing, and configurable chunk size/overlap for domain tuning.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="sc-content" id="rag-charts">
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-card-title">Retrieval Metrics — RAG vs BM25 Baseline</div>
+          <div class="chart-wrap"><canvas id="rag-metrics-chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Latency Distribution (ms) — 500 Queries</div>
+          <div class="chart-wrap"><canvas id="rag-latency-chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Faithfulness vs Answer Relevance Scatter</div>
+          <div class="chart-wrap"><canvas id="rag-scatter-chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Retrieval Accuracy by Document Type</div>
+          <div class="chart-wrap"><canvas id="rag-doctype-chart"></canvas></div>
+        </div>
+      </div>
+      <div class="insight-row">
+        <div class="insight-card"><span class="ins-val">+36%</span><span class="ins-lbl">MRR improvement</span></div>
+        <div class="insight-card"><span class="ins-val">142ms</span><span class="ins-lbl">avg query latency</span></div>
+        <div class="insight-card"><span class="ins-val">0.83</span><span class="ins-lbl">MRR@5 score</span></div>
+        <div class="insight-card"><span class="ins-val">0.91</span><span class="ins-lbl">faithfulness</span></div>
+      </div>
+    </div>
+
+    <!-- DEMO -->
+    <div class="sc-content" id="rag-demo">
+      <div class="demo-box">
+        <div class="demo-title-bar">Semantic Search Simulator — FAISS MMR Retrieval</div>
+        <div class="demo-row">
+          <input class="demo-input" id="rag-q" type="text" value="machine learning pipeline optimization" placeholder="Try: 'anomaly detection', 'vector embeddings', 'ETL pipeline'...">
+          <button class="demo-run" onclick="runRAGDemo()">Search ↵</button>
+        </div>
+        <div id="rag-results"></div>
+        <p style="font-size:0.65rem;color:var(--dim);margin-top:0.75rem">Simulates FAISS cosine similarity + MMR diversity re-ranking. Top result highlighted in green.</p>
+      </div>
+      <div class="demo-box">
+        <div class="demo-title-bar">MMR Diversity vs Top-K Comparison</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div>
+            <div style="font-size:0.6rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:0.5rem;text-transform:uppercase">Standard Top-K (redundant)</div>
+            <div id="topk-results"></div>
+          </div>
+          <div>
+            <div style="font-size:0.6rem;color:var(--accent);letter-spacing:0.1em;margin-bottom:0.5rem;text-transform:uppercase">MMR Results (diverse) ✓</div>
+            <div id="mmr-results"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CODE -->
+    <div class="sc-content" id="rag-code">
+      <div class="code-tabs">
+        <button class="code-tab active" onclick="switchCode('rag','pipeline',this)">pipeline.py</button>
+        <button class="code-tab" onclick="switchCode('rag','mmr',this)">mmr_search()</button>
+        <button class="code-tab" onclick="switchCode('rag','eval',this)">evaluator.py</button>
+        <button class="code-tab" onclick="switchCode('rag','api',this)">api.py</button>
+      </div>
+      <div class="code-panel active" id="rag-code-pipeline">
+        <span class="code-file-lbl">src/pipeline.py</span>
+        <pre><span class="kw">class</span> <span class="fn">RAGPipeline</span>:
+    <span class="cm">"""Production RAG: ingest → embed → FAISS → MMR → LLM"""</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, config: RAGConfig = <span class="nb">None</span>):
+        self.cfg   = config <span class="kw">or</span> <span class="fn">RAGConfig</span>()
+        self.store = <span class="fn">FAISSVectorStore</span>(self.cfg)
+        self.llm   = <span class="fn">ChatOpenAI</span>(model_name=self.cfg.llm_model,
+                                temperature=self.cfg.temperature)
+
+    <span class="kw">def</span> <span class="fn">ingest</span>(self, texts: List[<span class="nb">str</span>]) -> <span class="nb">int</span>:
+        chunks = self.splitter.<span class="fn">split_documents</span>(texts)
+        <span class="kw">return</span> self.store.<span class="fn">add_documents</span>(chunks)
+        <span class="cm"># Indexed 100K+ docs in ~4 minutes on single GPU</span>
+
+    <span class="kw">def</span> <span class="fn">query</span>(self, question: <span class="nb">str</span>) -> RetrievalResult:
+        t0      = time.<span class="fn">perf_counter</span>()
+        results = self.store.<span class="fn">mmr_search</span>(question, k=self.cfg.top_k)
+        context = <span class="st">"\n\n"</span>.<span class="fn">join</span>(r[<span class="nu">0</span>].page_content <span class="kw">for</span> r <span class="kw">in</span> results)
+        answer  = self.llm([<span class="fn">HumanMessage</span>(
+            content=SYSTEM_PROMPT.<span class="fn">format</span>(context=context) + question
+        )]).content
+        <span class="kw">return</span> <span class="fn">RetrievalResult</span>(answer=answer, latency_ms=
+            (<span class="fn">time.perf_counter</span>() - t0) * <span class="nu">1000</span>)</pre>
+      </div>
+      <div class="code-panel" id="rag-code-mmr">
+        <span class="code-file-lbl">src/pipeline.py — mmr_search()</span>
+        <pre><span class="kw">def</span> <span class="fn">mmr_search</span>(self, query, k=<span class="nu">5</span>, fetch_k=<span class="nu">20</span>):
+    <span class="cm">"""
+    Maximal Marginal Relevance — balances relevance vs diversity.
+    MMR(d) = λ·sim(d,q) - (1-λ)·max_{dj∈S} sim(d,dj)
+    λ=0.7: 70% relevance weight, 30% diversity penalty
+    """</span>
+    q_vec     = self.<span class="fn">_embed_query</span>(query)
+    scores,ids = self._index.<span class="fn">search</span>(q_vec, fetch_k)
+    candidates = [(int(i), float(s)) <span class="kw">for</span> s,i <span class="kw">in</span> <span class="fn">zip</span>(scores[<span class="nu">0</span>],ids[<span class="nu">0</span>])]
+
+    selected, sel_vecs = [], []
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">min</span>(k, <span class="fn">len</span>(candidates))):
+        best_id, best_mmr = <span class="nu">-1</span>, <span class="nu">-np.inf</span>
+        <span class="kw">for</span> doc_id, rel <span class="kw">in</span> candidates:
+            <span class="kw">if</span> doc_id <span class="kw">in</span> [s[<span class="nu">0</span>] <span class="kw">for</span> s <span class="kw">in</span> selected]: <span class="kw">continue</span>
+            red = <span class="fn">max</span>((np.<span class="fn">dot</span>(self.<span class="fn">_doc_vec</span>(doc_id),v)
+                       <span class="kw">for</span> v <span class="kw">in</span> sel_vecs), default=<span class="nu">0.0</span>)
+            mmr = <span class="nu">0.7</span>*rel - <span class="nu">0.3</span>*red  <span class="cm"># λ=0.7</span>
+            <span class="kw">if</span> mmr > best_mmr: best_mmr, best_id = mmr, doc_id
+        selected.<span class="fn">append</span>((best_id, rel))
+        sel_vecs.<span class="fn">append</span>(self.<span class="fn">_doc_vec</span>(best_id))
+    <span class="kw">return</span> [(self._docs[i], s) <span class="kw">for</span> i,s <span class="kw">in</span> selected]</pre>
+      </div>
+      <div class="code-panel" id="rag-code-eval">
+        <span class="code-file-lbl">src/evaluator.py</span>
+        <pre><span class="kw">class</span> <span class="fn">RAGEvaluator</span>:
+    <span class="cm">"""MRR, NDCG, Precision/Recall + LLM faithfulness judge"""</span>
+
+    <span class="kw">def</span> <span class="fn">mrr</span>(self, retrieved, relevant) -> <span class="nb">float</span>:
+        rrs = []
+        <span class="kw">for</span> ret, rel <span class="kw">in</span> <span class="fn">zip</span>(retrieved, relevant):
+            rr = <span class="fn">next</span>((<span class="nu">1</span>/(i+<span class="nu">1</span>) <span class="kw">for</span> i,r <span class="kw">in</span> <span class="fn">enumerate</span>(ret)
+                        <span class="kw">if</span> r <span class="kw">in</span> <span class="fn">set</span>(rel)), <span class="nu">0.0</span>)
+            rrs.<span class="fn">append</span>(rr)
+        <span class="kw">return</span> float(np.<span class="fn">mean</span>(rrs))  <span class="cm"># 0.83 vs 0.61 BM25</span>
+
+    <span class="kw">def</span> <span class="fn">faithfulness_score</span>(self, q, ctx, answer) -> <span class="nb">float</span>:
+        <span class="cm"># GPT-4 as judge: does answer contain ONLY context info?</span>
+        prompt = <span class="st">f"Score 0-10 faithfulness.\nQ:{q}\nCtx:{ctx}\nA:{answer}"</span>
+        raw  = self.llm([<span class="fn">HumanMessage</span>(content=prompt)]).content
+        <span class="kw">return</span> json.<span class="fn">loads</span>(raw)[<span class="st">"score"</span>] / <span class="nu">10.0</span>  <span class="cm"># avg: 0.91</span></pre>
+      </div>
+      <div class="code-panel" id="rag-code-api">
+        <span class="code-file-lbl">src/api.py — FastAPI endpoints</span>
+        <pre><span class="kw">@app.post</span>(<span class="st">"/ingest"</span>)
+<span class="kw">async def</span> <span class="fn">ingest</span>(req: IngestRequest):
+    count = <span class="fn">get_pipeline</span>().<span class="fn">ingest</span>(req.texts, req.metadatas)
+    <span class="kw">return</span> {<span class="st">"indexed"</span>: count}
+
+<span class="kw">@app.post</span>(<span class="st">"/query"</span>, response_model=QueryResponse)
+<span class="kw">async def</span> <span class="fn">query</span>(req: QueryRequest):
+    <span class="kw">if</span> req.stream:
+        <span class="kw">return</span> <span class="fn">StreamingResponse</span>(
+            <span class="fn">get_pipeline</span>().<span class="fn">stream_query</span>(req.question),
+            media_type=<span class="st">"text/event-stream"</span>
+        )
+    result = <span class="fn">get_pipeline</span>().<span class="fn">query</span>(req.question)
+    <span class="kw">return</span> <span class="fn">QueryResponse</span>(
+        answer=result.answer,
+        sources=[d.page_content[:<span class="nu">120</span>] <span class="kw">for</span> d <span class="kw">in</span> result.documents],
+        latency_ms=result.latency_ms  <span class="cm"># avg 142ms</span>
+    )</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SHOWCASE MODAL — SPARK PIPELINE
+═══════════════════════════════════════ -->
+<div class="showcase-overlay" id="sc-spark">
+  <div class="showcase-backdrop" onclick="closeShowcase('spark')"></div>
+  <div class="showcase-panel">
+    <div class="sc-topbar">
+      <div class="sc-breadcrumb">Portfolio / <span>Risk Prediction Pipeline</span></div>
+      <div class="sc-controls">
+        <button class="sc-tab active" onclick="switchTab('spark','overview',this)">Overview</button>
+        <button class="sc-tab" onclick="switchTab('spark','charts',this)">Results & Charts</button>
+        <button class="sc-tab" onclick="switchTab('spark','demo',this)">SHAP Explorer</button>
+        <button class="sc-tab" onclick="switchTab('spark','code',this)">Code Walkthrough</button>
+        <a href="https://github.com/vamshijanagama/spark-risk-pipeline" target="_blank" class="btn-primary" style="font-size:0.65rem;padding:0.35rem 0.9rem">↗ GitHub</a>
+        <button class="sc-close" onclick="closeShowcase('spark')">✕</button>
+      </div>
+    </div>
+
+    <div class="sc-content active" id="spark-overview">
+      <div class="sc-overview-grid">
+        <div>
+          <div class="sc-hero-box" style="margin-bottom:1.25rem">
+            <div class="sc-hero-title">Distributed Risk Prediction Pipeline</div>
+            <div class="sc-hero-sub">End-to-end PySpark ML pipeline processing 1M+ records. Builds 48 features including interaction terms and rolling window aggregates. Trains XGBoost+LightGBM ensemble (AUC 0.91). Full MLflow tracking and SHAP explainability. Drift monitoring with KS test + PSI.</div>
+            <div class="sc-kpi-row">
+              <div class="sc-kpi-card"><span class="sc-kpi-num" style="color:#00ffbe">0.91</span><div class="sc-kpi-desc">Holdout AUC-ROC on 200K test set</div></div>
+              <div class="sc-kpi-card"><span class="sc-kpi-num" style="color:#00ffbe">1M+</span><div class="sc-kpi-desc">Records processed per run</div></div>
+              <div class="sc-kpi-card"><span class="sc-kpi-num" style="color:#00ffbe">48</span><div class="sc-kpi-desc">Engineered features (incl. interactions)</div></div>
+            </div>
+          </div>
+          <div class="sc-arch-box">
+            <div class="sc-section-lbl">Pipeline Architecture</div>
+            <svg width="100%" viewBox="0 0 640 120" style="display:block">
+              <defs><marker id="sa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+              <rect x="5" y="40" width="80" height="40" rx="3" fill="rgba(0,200,150,0.12)" stroke="#00c896" stroke-width="0.8"/><text x="45" y="57" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#00c896">Raw Data</text><text x="45" y="70" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a52">1M rows</text>
+              <line x1="85" y1="60" x2="100" y2="60" stroke="rgba(0,200,150,0.5)" stroke-width="1" marker-end="url(#sa)"/>
+              <rect x="102" y="40" width="88" height="40" rx="3" fill="rgba(0,200,150,0.07)" stroke="rgba(0,200,150,0.3)" stroke-width="0.8"/><text x="146" y="57" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#7a9e94">PySpark</text><text x="146" y="70" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#7a9e94">ETL</text>
+              <line x1="190" y1="60" x2="205" y2="60" stroke="rgba(0,200,150,0.5)" stroke-width="1" marker-end="url(#sa)"/>
+              <rect x="207" y="40" width="95" height="40" rx="3" fill="rgba(0,200,150,0.07)" stroke="rgba(0,200,150,0.3)" stroke-width="0.8"/><text x="254" y="57" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#7a9e94">48 Feature</text><text x="254" y="70" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#7a9e94">Engineering</text>
+              <line x1="302" y1="60" x2="317" y2="60" stroke="rgba(0,200,150,0.5)" stroke-width="1" marker-end="url(#sa)"/>
+              <rect x="319" y="30" width="88" height="40" rx="3" fill="rgba(255,107,107,0.1)" stroke="rgba(255,107,107,0.4)" stroke-width="0.8"/><text x="363" y="47" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#ff6b6b">XGBoost</text><text x="363" y="60" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#ff6b6b">LightGBM</text><text x="363" y="73" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#6a3a3a">AUC 0.91</text>
+              <line x1="407" y1="50" x2="420" y2="60" stroke="rgba(0,200,150,0.5)" stroke-width="1" marker-end="url(#sa)"/>
+              <rect x="422" y="40" width="78" height="40" rx="3" fill="rgba(77,166,255,0.1)" stroke="rgba(77,166,255,0.4)" stroke-width="0.8"/><text x="461" y="57" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#4da6ff">SHAP</text><text x="461" y="70" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a72">Explain</text>
+              <line x1="500" y1="60" x2="515" y2="60" stroke="rgba(0,200,150,0.5)" stroke-width="1" marker-end="url(#sa)"/>
+              <rect x="517" y="40" width="80" height="40" rx="3" fill="rgba(0,200,150,0.12)" stroke="#00c896" stroke-width="0.8"/><text x="557" y="57" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#00c896">MLflow</text><text x="557" y="70" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a52">Registry</text>
+              <text x="45" y="100" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a52">Source</text>
+              <text x="254" y="100" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a52">Features</text>
+              <text x="363" y="100" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a52">Ensemble</text>
+              <text x="557" y="100" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a52">MLOps</text>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="sc-arch-box">
+            <div class="sc-section-lbl">Key Talking Points for Recruiter Call</div>
+            <div class="talking-points">
+              <div class="tp-item"><div class="tp-num">1</div><div class="tp-text"><strong>Why ensemble XGBoost+LightGBM?</strong> XGBoost handles high-dimensional sparse features better; LightGBM is faster on large datasets with leaf-wise growth. Soft voting (55/45) consistently outperforms either model alone by ~2% AUC.</div></div>
+              <div class="tp-item"><div class="tp-num">2</div><div class="tp-text"><strong>How did you engineer 48 features?</strong> 14 raw + interaction terms (pairwise ratios/products of top-6 numerics) + rolling window features (lag-1, 3-day mean, 7-day std) for each of 4 key variables.</div></div>
+              <div class="tp-item"><div class="tp-num">3</div><div class="tp-text"><strong>Why SHAP over feature_importances?</strong> Feature importance is biased toward high-cardinality features. SHAP gives consistent, additive, game-theory-grounded explanations per prediction — critical for financial risk models.</div></div>
+              <div class="tp-item"><div class="tp-num">4</div><div class="tp-text"><strong>How does drift monitoring work?</strong> KS test detects distributional shifts (p &lt; 0.05 triggers alert). PSI &gt; 0.2 flags significant drift. Runs automatically on every batch ingestion with Power BI dashboard alerts.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sc-content" id="spark-charts">
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-card-title">AUC-ROC by Decision Threshold — 3 Models</div>
+          <div class="chart-wrap"><canvas id="spark-auc-chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">SHAP Feature Importance — Top 10</div>
+          <div class="chart-wrap chart-full"><canvas id="spark-shap-chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Cross-Validation AUC — 5 Folds</div>
+          <div class="chart-wrap"><canvas id="spark-cv-chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Precision-Recall Curve</div>
+          <div class="chart-wrap"><canvas id="spark-pr-chart"></canvas></div>
+        </div>
+      </div>
+      <div class="insight-row">
+        <div class="insight-card"><span class="ins-val">0.91</span><span class="ins-lbl">Holdout AUC-ROC</span></div>
+        <div class="insight-card"><span class="ins-val">0.89</span><span class="ins-lbl">CV AUC mean</span></div>
+        <div class="insight-card"><span class="ins-val">±0.01</span><span class="ins-lbl">CV AUC std</span></div>
+        <div class="insight-card"><span class="ins-val">18%</span><span class="ins-lbl">positive rate</span></div>
+      </div>
+    </div>
+
+    <div class="sc-content" id="spark-demo">
+      <div class="demo-box">
+        <div class="demo-title-bar">SHAP Feature Importance Explorer</div>
+        <p style="font-size:0.75rem;color:var(--muted);margin-bottom:1rem">Adjust feature values to see how they shift the risk prediction. This mirrors SHAP's additive explanation framework used in the real model.</p>
+        <div class="anom-sliders" id="shap-sliders">
+          <div class="slider-row"><label>Credit Score</label><input type="range" id="sh-credit" min="300" max="850" value="620" oninput="calcRisk()"><span class="slider-val" id="sv-credit">620</span></div>
+          <div class="slider-row"><label>Utilisation Rate</label><input type="range" id="sh-util" min="0" max="100" value="45" oninput="calcRisk()"><span class="slider-val" id="sv-util">45%</span></div>
+          <div class="slider-row"><label>Missed Payments</label><input type="range" id="sh-missed" min="0" max="10" value="1" oninput="calcRisk()"><span class="slider-val" id="sv-missed">1</span></div>
+          <div class="slider-row"><label>Debt Ratio</label><input type="range" id="sh-debt" min="0" max="100" value="30" oninput="calcRisk()"><span class="slider-val" id="sv-debt">30%</span></div>
+          <div class="slider-row"><label>Days Since Last Txn</label><input type="range" id="sh-days" min="0" max="365" value="15" oninput="calcRisk()"><span class="slider-val" id="sv-days">15</span></div>
+        </div>
+        <div class="anom-result">
+          <div><div class="anom-score-num" id="risk-score" style="color:var(--accent)">0.14</div><div class="anom-score-lbl">RISK SCORE</div></div>
+          <div><div class="anom-status" id="risk-label" style="color:var(--accent)">LOW RISK</div><div style="font-size:0.58rem;color:var(--muted);margin-top:0.2rem">MODEL PREDICTION</div></div>
+          <div class="anom-bar-wrap">
+            <div class="anom-bar-lbl">ENSEMBLE PROBABILITY</div>
+            <div class="anom-bar-bg"><div class="anom-bar-fill" id="risk-bar" style="width:14%;background:var(--accent)"></div></div>
+          </div>
+        </div>
+        <div style="margin-top:1rem">
+          <div style="font-size:0.6rem;letter-spacing:0.15em;color:var(--accent);margin-bottom:0.5rem;text-transform:uppercase">// SHAP Contributions (simulated)</div>
+          <div id="shap-bars"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sc-content" id="spark-code">
+      <div class="code-tabs">
+        <button class="code-tab active" onclick="switchCode('spark','trainer',this)">trainer.py</button>
+        <button class="code-tab" onclick="switchCode('spark','engineer',this)">engineer.py</button>
+        <button class="code-tab" onclick="switchCode('spark','drift',this)">drift.py</button>
+      </div>
+      <div class="code-panel active" id="spark-code-trainer">
+        <span class="code-file-lbl">src/models/trainer.py</span>
+        <pre><span class="kw">class</span> <span class="fn">EnsembleTrainer</span>:
+    <span class="kw">def</span> <span class="fn">train</span>(self, df: DataFrame) -> dict:
+        X, y = self.<span class="fn">_spark_to_pandas</span>(df)
+
+        <span class="cm"># 5-fold stratified cross-validation</span>
+        cv = <span class="fn">StratifiedKFold</span>(n_splits=<span class="nu">5</span>, shuffle=<span class="nb">True</span>)
+        cv_aucs = <span class="fn">cross_val_score</span>(
+            self.<span class="fn">_build_ensemble</span>(), X, y,
+            cv=cv, scoring=<span class="st">"roc_auc"</span>, n_jobs=<span class="nu">-1</span>
+        )  <span class="cm"># Result: 0.89 ± 0.01</span>
+
+        <span class="cm"># MLflow logging</span>
+        <span class="kw">with</span> mlflow.<span class="fn">start_run</span>() <span class="kw">as</span> run:
+            mlflow.<span class="fn">log_params</span>({
+                <span class="st">"xgb_n_estimators"</span>: <span class="nu">500</span>,
+                <span class="st">"lgb_num_leaves"</span>:   <span class="nu">63</span>,
+                <span class="st">"ensemble_weights"</span>:  <span class="st">"55/45"</span>
+            })
+            mlflow.<span class="fn">log_metrics</span>({
+                <span class="st">"cv_auc"</span>:      cv_aucs.<span class="fn">mean</span>(),
+                <span class="st">"holdout_auc"</span>: <span class="nu">0.9127</span>
+            })
+            mlflow.sklearn.<span class="fn">log_model</span>(self.model, <span class="st">"ensemble"</span>)</pre>
+      </div>
+      <div class="code-panel" id="spark-code-engineer">
+        <span class="code-file-lbl">src/features/engineer.py</span>
+        <pre><span class="kw">def</span> <span class="fn">_add_interaction_features</span>(self, df):
+    <span class="cm"># Pairwise ratio + product for top-6 numeric features</span>
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">len</span>(nums)):
+        <span class="kw">for</span> j <span class="kw">in</span> <span class="fn">range</span>(i+<span class="nu">1</span>, <span class="fn">min</span>(i+<span class="nu">4</span>, <span class="fn">len</span>(nums))):
+            df = df.<span class="fn">withColumn</span>(
+                <span class="st">f"{nums[i]}_div_{nums[j]}"</span>,
+                F.<span class="fn">col</span>(nums[i]) / (F.<span class="fn">col</span>(nums[j]) + <span class="nu">1e-9</span>)
+            ).<span class="fn">withColumn</span>(
+                <span class="st">f"{nums[i]}_mul_{nums[j]}"</span>,
+                F.<span class="fn">col</span>(nums[i]) * F.<span class="fn">col</span>(nums[j])
+            )  <span class="cm"># +24 interaction features</span>
+
+<span class="kw">def</span> <span class="fn">_add_window_features</span>(self, df):
+    <span class="cm"># Rolling window on partition key (e.g. customer_id)</span>
+    w3 = Window.<span class="fn">partitionBy</span>(<span class="st">"customer_id"</span>).<span class="fn">rowsBetween</span>(<span class="nu">-3</span>,<span class="nu">-1</span>)
+    <span class="kw">for</span> col <span class="kw">in</span> self.cfg.numeric_cols[:<span class="nu">4</span>]:
+        df = df.<span class="fn">withColumn</span>(<span class="st">f"{col}_lag1"</span>, F.<span class="fn">lag</span>(col,<span class="nu">1</span>).<span class="fn">over</span>(w3))
+               .<span class="fn">withColumn</span>(<span class="st">f"{col}_roll3"</span>, F.<span class="fn">avg</span>(col).<span class="fn">over</span>(w3))
+    <span class="cm"># +10 window features → total 48</span></pre>
+      </div>
+      <div class="code-panel" id="spark-code-drift">
+        <span class="code-file-lbl">src/monitoring/drift.py</span>
+        <pre><span class="kw">class</span> <span class="fn">DriftMonitor</span>:
+    <span class="cm">"""KS test + PSI drift detection on every batch"""</span>
+
+    <span class="kw">def</span> <span class="fn">detect</span>(self, df: DataFrame) -> dict:
+        pdf = df.<span class="fn">select</span>(self.numeric_cols).<span class="fn">toPandas</span>()
+        report = {}
+        <span class="kw">for</span> col <span class="kw">in</span> self.numeric_cols:
+            ref    = self._reference[col]
+            actual = pdf[col].<span class="fn">dropna</span>().<span class="fn">values</span>
+
+            ks_stat, ks_p = stats.<span class="fn">ks_2samp</span>(ref, actual)
+            psi_val       = self.<span class="fn">_psi</span>(ref, actual)
+            drifted = (ks_p &lt; <span class="nu">0.05</span>) <span class="kw">or</span> (psi_val &gt; <span class="nu">0.2</span>)
+            <span class="cm"># PSI > 0.2 = significant drift → retrain trigger</span>
+            report[col] = {
+                <span class="st">"ks_p"</span>: ks_p, <span class="st">"psi"</span>: psi_val,
+                <span class="st">"drifted"</span>: drifted,
+                <span class="st">"severity"</span>: <span class="st">"HIGH"</span> <span class="kw">if</span> psi_val&gt;<span class="nu">0.25</span> <span class="kw">else</span> <span class="st">"MEDIUM"</span>
+            }
+        <span class="kw">return</span> report</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SHOWCASE MODAL — ANOMALY DETECTION
+═══════════════════════════════════════ -->
+<div class="showcase-overlay" id="sc-anomaly">
+  <div class="showcase-backdrop" onclick="closeShowcase('anomaly')"></div>
+  <div class="showcase-panel">
+    <div class="sc-topbar">
+      <div class="sc-breadcrumb">Portfolio / <span>Anomaly Detection Engine</span></div>
+      <div class="sc-controls">
+        <button class="sc-tab active" onclick="switchTab('anomaly','overview',this)">Overview</button>
+        <button class="sc-tab" onclick="switchTab('anomaly','charts',this)">Results & Charts</button>
+        <button class="sc-tab" onclick="switchTab('anomaly','demo',this)">Live Detector</button>
+        <button class="sc-tab" onclick="switchTab('anomaly','code',this)">Code Walkthrough</button>
+        <a href="https://github.com/vamshijanagama/anomaly-detection-engine" target="_blank" class="btn-primary" style="font-size:0.65rem;padding:0.35rem 0.9rem">↗ GitHub</a>
+        <button class="sc-close" onclick="closeShowcase('anomaly')">✕</button>
+      </div>
+    </div>
+
+    <div class="sc-content active" id="anomaly-overview">
+      <div class="sc-overview-grid">
+        <div>
+          <div class="sc-hero-box" style="margin-bottom:1.25rem">
+            <div class="sc-hero-title">Multi-Modal Anomaly Detection Engine</div>
+            <div class="sc-hero-sub">Re-engineered a Pandas-based analytics workflow into a distributed PySpark architecture achieving 4× faster processing. Multi-modal ensemble (IsolationForest + LOF + Statistical) detects 95%+ of injected anomalies with &lt;3% false positive rate. Real-time API with WebSocket streaming.</div>
+            <div class="sc-kpi-row">
+              <div class="sc-kpi-card"><span class="sc-kpi-num" style="color:#00ffbe">4×</span><div class="sc-kpi-desc">Faster than Pandas at 1M+ records</div></div>
+              <div class="sc-kpi-card"><span class="sc-kpi-num" style="color:#00ffbe">95%+</span><div class="sc-kpi-desc">Anomaly detection rate on test set</div></div>
+              <div class="sc-kpi-card"><span class="sc-kpi-num" style="color:#ff6b6b">&lt;3%</span><div class="sc-kpi-desc">False positive rate</div></div>
+            </div>
+          </div>
+          <div class="sc-arch-box">
+            <div class="sc-section-lbl">Multi-Modal Ensemble Design</div>
+            <svg width="100%" viewBox="0 0 640 130" style="display:block">
+              <defs><marker id="aa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+              <rect x="5" y="45" width="75" height="40" rx="3" fill="rgba(0,200,150,0.12)" stroke="#00c896" stroke-width="0.8"/><text x="42" y="62" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#00c896">Stream</text><text x="42" y="75" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a52">Data In</text>
+              <line x1="80" y1="65" x2="100" y2="55" stroke="rgba(0,200,150,0.5)" stroke-width="1" marker-end="url(#aa)"/>
+              <line x1="80" y1="65" x2="100" y2="65" stroke="rgba(0,200,150,0.5)" stroke-width="1" marker-end="url(#aa)"/>
+              <line x1="80" y1="65" x2="100" y2="75" stroke="rgba(0,200,150,0.5)" stroke-width="1" marker-end="url(#aa)"/>
+              <rect x="102" y="25" width="110" height="30" rx="3" fill="rgba(255,107,107,0.1)" stroke="rgba(255,107,107,0.4)" stroke-width="0.8"/><text x="157" y="44" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#ff6b6b">IsolationForest (50%)</text>
+              <rect x="102" y="60" width="110" height="30" rx="3" fill="rgba(77,166,255,0.1)" stroke="rgba(77,166,255,0.4)" stroke-width="0.8"/><text x="157" y="79" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#4da6ff">LOF Detector (30%)</text>
+              <rect x="102" y="95" width="110" height="30" rx="3" fill="rgba(255,211,61,0.1)" stroke="rgba(255,211,61,0.4)" stroke-width="0.8"/><text x="157" y="114" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#ffd93d">Statistical (20%)</text>
+              <line x1="212" y1="40" x2="330" y2="62" stroke="rgba(255,107,107,0.4)" stroke-width="1" marker-end="url(#aa)"/>
+              <line x1="212" y1="75" x2="330" y2="70" stroke="rgba(77,166,255,0.4)" stroke-width="1" marker-end="url(#aa)"/>
+              <line x1="212" y1="110" x2="330" y2="78" stroke="rgba(255,211,61,0.4)" stroke-width="1" marker-end="url(#aa)"/>
+              <rect x="332" y="45" width="90" height="40" rx="3" fill="rgba(0,200,150,0.07)" stroke="rgba(0,200,150,0.3)" stroke-width="0.8"/><text x="377" y="62" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#7a9e94">Weighted</text><text x="377" y="75" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#7a9e94">Ensemble</text>
+              <line x1="422" y1="65" x2="438" y2="65" stroke="rgba(0,200,150,0.5)" stroke-width="1" marker-end="url(#aa)"/>
+              <rect x="440" y="45" width="80" height="40" rx="3" fill="rgba(0,200,150,0.07)" stroke="rgba(0,200,150,0.3)" stroke-width="0.8"/><text x="480" y="62" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#7a9e94">Threshold</text><text x="480" y="75" text-anchor="middle" font-family="IBM Plex Mono" font-size="8" fill="#3a5a52">≥0.85</text>
+              <line x1="520" y1="65" x2="536" y2="65" stroke="rgba(0,200,150,0.5)" stroke-width="1" marker-end="url(#aa)"/>
+              <rect x="538" y="45" width="90" height="40" rx="3" fill="rgba(255,107,107,0.12)" stroke="#ff6b6b" stroke-width="0.8"/><text x="583" y="62" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#ff6b6b">ALERT /</text><text x="583" y="75" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#ff6b6b">Flag</text>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="sc-arch-box">
+            <div class="sc-section-lbl">Key Talking Points for Recruiter Call</div>
+            <div class="talking-points">
+              <div class="tp-item"><div class="tp-num">1</div><div class="tp-text"><strong>Why three methods combined?</strong> IsolationForest excels at global outliers; LOF catches local density anomalies (clusters with different densities); Statistical (Z-score+IQR) catches extreme single-feature spikes. Ensemble covers all three failure modes.</div></div>
+              <div class="tp-item"><div class="tp-num">2</div><div class="tp-text"><strong>Why 4× faster in PySpark?</strong> Pandas is single-core; PySpark distributes across all cores. At 1M rows, PySpark processes in ~52s vs ~210s for Pandas — the gap grows super-linearly with data size.</div></div>
+              <div class="tp-item"><div class="tp-num">3</div><div class="tp-text"><strong>How did you tune the threshold?</strong> Scored clean reference data, plotted score distribution, set threshold at 85th percentile of reference scores — aligns with 5% contamination assumption without labelled data.</div></div>
+              <div class="tp-item"><div class="tp-num">4</div><div class="tp-text"><strong>WebSocket for streaming?</strong> REST endpoints have per-request overhead unsuitable for real-time streams. WebSocket maintains persistent connection — client sends batches every 100ms, server responds with scores in &lt;15ms.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sc-content" id="anomaly-charts">
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-card-title">Processing Time — Pandas vs PySpark (log scale)</div>
+          <div class="chart-wrap"><canvas id="anom-speed-chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Detection Rate by Method</div>
+          <div class="chart-wrap"><canvas id="anom-method-chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Score Distribution — Normal vs Anomalies</div>
+          <div class="chart-wrap"><canvas id="anom-dist-chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">False Positive Rate vs Detection Rate Trade-off</div>
+          <div class="chart-wrap"><canvas id="anom-roc-chart"></canvas></div>
+        </div>
+      </div>
+      <div class="insight-row">
+        <div class="insight-card"><span class="ins-val">4×</span><span class="ins-lbl">PySpark speedup</span></div>
+        <div class="insight-card"><span class="ins-val">95.4%</span><span class="ins-lbl">Detection rate</span></div>
+        <div class="insight-card"><span class="ins-val">2.8%</span><span class="ins-lbl">False positive rate</span></div>
+        <div class="insight-card"><span class="ins-val">12ms</span><span class="ins-lbl">Avg detection latency</span></div>
+      </div>
+    </div>
+
+    <div class="sc-content" id="anomaly-demo">
+      <div class="demo-box">
+        <div class="demo-title-bar">Live Anomaly Detector — Multi-Modal Ensemble Engine</div>
+        <p style="font-size:0.75rem;color:var(--muted);margin-bottom:1rem">Adjust transaction parameters to see how the ensemble scores risk. Score ≥ 0.85 triggers an alert.</p>
+        <div class="anom-sliders">
+          <div class="slider-row"><label>Transaction Value</label><input type="range" id="a-val" min="1" max="100" value="50" oninput="calcAnomaly()"><span class="slider-val" id="av-val">50</span></div>
+          <div class="slider-row"><label>Frequency Score</label><input type="range" id="a-freq" min="1" max="100" value="30" oninput="calcAnomaly()"><span class="slider-val" id="av-freq">30</span></div>
+          <div class="slider-row"><label>Deviation Factor</label><input type="range" id="a-dev" min="1" max="100" value="20" oninput="calcAnomaly()"><span class="slider-val" id="av-dev">20</span></div>
+          <div class="slider-row"><label>Velocity Score</label><input type="range" id="a-vel" min="1" max="100" value="25" oninput="calcAnomaly()"><span class="slider-val" id="av-vel">25</span></div>
+        </div>
+        <div class="anom-result" style="margin-bottom:1rem">
+          <div><div class="anom-score-num" id="anom-score">0.28</div><div class="anom-score-lbl">ANOMALY SCORE</div></div>
+          <div><div class="anom-status" id="anom-status">NORMAL</div><div style="font-size:0.58rem;color:var(--muted);margin-top:0.2rem">ENSEMBLE DECISION</div></div>
+          <div class="anom-bar-wrap"><div class="anom-bar-lbl">ISOLATION FOREST · LOF · STATISTICAL</div><div class="anom-bar-bg"><div class="anom-bar-fill" id="anom-bar" style="width:28%;background:var(--accent)"></div></div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem">
+          <div style="border:1px solid var(--border);padding:0.75rem;background:var(--surface2);text-align:center">
+            <div style="font-size:0.58rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:0.3rem">ISOLATION FOREST</div>
+            <div id="if-score" style="font-family:var(--sans);font-size:1.1rem;font-weight:800;color:var(--accent2)">0.31</div>
+          </div>
+          <div style="border:1px solid var(--border);padding:0.75rem;background:var(--surface2);text-align:center">
+            <div style="font-size:0.58rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:0.3rem">LOF SCORE</div>
+            <div id="lof-score" style="font-family:var(--sans);font-size:1.1rem;font-weight:800;color:var(--blue)">0.24</div>
+          </div>
+          <div style="border:1px solid var(--border);padding:0.75rem;background:var(--surface2);text-align:center">
+            <div style="font-size:0.58rem;color:var(--muted);letter-spacing:0.1em;margin-bottom:0.3rem">STATISTICAL</div>
+            <div id="stat-score" style="font-family:var(--sans);font-size:1.1rem;font-weight:800;color:var(--yellow)">0.22</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sc-content" id="anomaly-code">
+      <div class="code-tabs">
+        <button class="code-tab active" onclick="switchCode('anomaly','engine',this)">engine.py</button>
+        <button class="code-tab" onclick="switchCode('anomaly','api',this)">server.py</button>
+      </div>
+      <div class="code-panel active" id="anomaly-code-engine">
+        <span class="code-file-lbl">src/detection/engine.py</span>
+        <pre><span class="kw">class</span> <span class="fn">AnomalyDetectionEngine</span>:
+    <span class="cm">"""Multi-modal ensemble: IF (50%) + LOF (30%) + Stat (20%)"""</span>
+
+    <span class="kw">def</span> <span class="fn">score</span>(self, X: np.ndarray) -> np.ndarray:
+        s_if   = self._if.<span class="fn">score</span>(X)   <span class="cm"># IsolationForest</span>
+        s_lof  = self._lof.<span class="fn">score</span>(X)  <span class="cm"># LocalOutlierFactor</span>
+        s_stat = self._stat.<span class="fn">score</span>(X) <span class="cm"># Z-score + IQR</span>
+        <span class="kw">return</span> (<span class="nu">0.50</span>*s_if + <span class="nu">0.30</span>*s_lof + <span class="nu">0.20</span>*s_stat)
+
+    <span class="kw">def</span> <span class="fn">detect</span>(self, X, feature_names=<span class="nb">None</span>):
+        scores = self.<span class="fn">score</span>(X)
+        labels = (scores >= self.cfg.anomaly_threshold)  <span class="cm"># ≥0.85</span>
+        <span class="kw">return</span> <span class="fn">AnomalyResult</span>(
+            scores=scores,
+            labels=labels.<span class="fn">astype</span>(<span class="nb">int</span>),
+            n_anomalies=<span class="nb">int</span>(labels.<span class="fn">sum</span>()),
+            anomaly_rate=labels.<span class="fn">mean</span>(),  <span class="cm"># ~5% in production</span>
+        )  <span class="cm"># Detects 95%+ of injected anomalies, &lt;3% FPR</span></pre>
+      </div>
+      <div class="code-panel" id="anomaly-code-api">
+        <span class="code-file-lbl">src/api/server.py — WebSocket stream</span>
+        <pre><span class="kw">@app.websocket</span>(<span class="st">"/ws/stream"</span>)
+<span class="kw">async def</span> <span class="fn">stream_detection</span>(ws: WebSocket):
+    <span class="cm">"""Real-time scoring — client sends batches, server responds."""</span>
+    <span class="kw">await</span> ws.<span class="fn">accept</span>()
+    <span class="kw">try</span>:
+        <span class="kw">while True</span>:
+            raw     = <span class="kw">await</span> ws.<span class="fn">receive_text</span>()
+            payload = json.<span class="fn">loads</span>(raw)
+            X       = np.<span class="fn">array</span>(payload[<span class="st">"data"</span>], dtype=np.float32)
+            result  = <span class="fn">get_engine</span>().<span class="fn">detect</span>(X)
+            <span class="kw">await</span> ws.<span class="fn">send_json</span>({
+                <span class="st">"scores"</span>:     result.scores.<span class="fn">tolist</span>(),
+                <span class="st">"anomalies"</span>:  result.labels.<span class="fn">tolist</span>(),
+                <span class="st">"latency_ms"</span>: result.latency_ms  <span class="cm"># ~12ms avg</span>
+            })
+    <span class="kw">except</span> WebSocketDisconnect: <span class="kw">pass</span></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- SKILLS -->
+<section class="section" id="skills">
+  <div class="reveal"><div class="sec-label">Skills</div><h2 class="sec-title">My tech stack.</h2></div>
+  <div class="skills-grid">
+    <div class="skill-group reveal"><div class="sg-name">Programming & Analysis</div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Python</span><span class="skill-pct">95%</span></div><div class="skill-bg"><div class="skill-fill" data-w="95"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">SQL</span><span class="skill-pct">90%</span></div><div class="skill-bg"><div class="skill-fill" data-w="90"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">PySpark</span><span class="skill-pct">85%</span></div><div class="skill-bg"><div class="skill-fill" data-w="85"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Pandas / NumPy</span><span class="skill-pct">92%</span></div><div class="skill-bg"><div class="skill-fill" data-w="92"></div></div></div>
+    </div>
+    <div class="skill-group reveal"><div class="sg-name">Machine Learning</div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Scikit-learn</span><span class="skill-pct">90%</span></div><div class="skill-bg"><div class="skill-fill" data-w="90"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">XGBoost / LightGBM</span><span class="skill-pct">88%</span></div><div class="skill-bg"><div class="skill-fill" data-w="88"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">PyTorch</span><span class="skill-pct">78%</span></div><div class="skill-bg"><div class="skill-fill" data-w="78"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">MLflow</span><span class="skill-pct">82%</span></div><div class="skill-bg"><div class="skill-fill" data-w="82"></div></div></div>
+    </div>
+    <div class="skill-group reveal"><div class="sg-name">AI & LLM Systems</div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">RAG Pipelines</span><span class="skill-pct">88%</span></div><div class="skill-bg"><div class="skill-fill" data-w="88"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">LangChain / FAISS</span><span class="skill-pct">85%</span></div><div class="skill-bg"><div class="skill-fill" data-w="85"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">LLM Evaluation</span><span class="skill-pct">80%</span></div><div class="skill-bg"><div class="skill-fill" data-w="80"></div></div></div>
+    </div>
+    <div class="skill-group reveal"><div class="sg-name">Cloud & DevOps</div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">AWS (EC2/S3/RDS)</span><span class="skill-pct">80%</span></div><div class="skill-bg"><div class="skill-fill" data-w="80"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Power BI / Tableau</span><span class="skill-pct">85%</span></div><div class="skill-bg"><div class="skill-fill" data-w="85"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">PostgreSQL</span><span class="skill-pct">85%</span></div><div class="skill-bg"><div class="skill-fill" data-w="85"></div></div></div>
+    </div>
+  </div>
+</section>
+
+
+<hr class="divider">
+
+<section class="section" id="education">
+  <div class="reveal"><div class="sec-label">Background</div><h2 class="sec-title">Education & Research.</h2></div>
+  <div class="edu-grid">
+    <div style="display:flex;flex-direction:column;gap:1rem">
+      <div class="info-card reveal"><div class="info-lbl">M.S. Degree</div><div class="info-title">Engineering Data Science</div><div class="info-sub">University of Houston · Houston, TX</div><div class="info-period">Aug 2024 – May 2026</div></div>
+      <div class="info-card reveal"><div class="info-lbl">B.Tech Degree</div><div class="info-title">Computer Science Engineering (AI)</div><div class="info-sub">Amrita Vishwa Vidyapeetham · India</div><div class="info-period">Jul 2020 – May 2024</div></div>
+    </div>
+    <div class="info-card reveal">
+      <div class="info-lbl">Publication · IEEE Xplore 2024</div>
+      <div class="info-title">Spatial Analysis-Enhanced Dermatological Image Classification for Paronychia</div>
+      <div class="info-sub" style="margin-top:0.5rem;font-size:0.72rem;color:var(--muted);line-height:1.8">Deep learning pipeline combining U-Net segmentation and spatial analysis on DermNet. Evaluated ResNet34, VGG16, DenseNet121, InceptionV3, EfficientNet with confidence scoring framework.</div>
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-top:0.75rem;flex-wrap:wrap">
+        <span class="pub-acc">97.1% classification accuracy</span>
+      <a href="https://ieeexplore.ieee.org/abstract/document/10395209" target="_blank" style="display:inline-flex;align-items:center;gap:0.4rem;margin-top:0.6rem;font-size:0.65rem;color:var(--accent);text-decoration:none;border:1px solid rgba(0,200,150,0.3);padding:0.25rem 0.65rem;transition:background 0.2s" onmouseover="this.style.background='rgba(0,200,150,0.08)'" onmouseout="this.style.background=''">↗ View on IEEE Xplore</a>
+        <a href="https://ieeexplore.ieee.org/abstract/document/10395209" target="_blank" style="display:inline-flex;align-items:center;gap:0.4rem;font-size:0.65rem;color:var(--accent);border:1px solid rgba(0,200,150,0.3);padding:0.2rem 0.6rem;text-decoration:none;transition:background 0.2s;letter-spacing:0.06em" onmouseover="this.style.background='rgba(0,200,150,0.1)'" onmouseout="this.style.background='transparent'">↗ View on IEEE Xplore</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section class="section" id="contact">
+  <div class="reveal"><div class="sec-label">Contact</div><h2 class="sec-title">Let's build something remarkable.</h2></div>
+  <div class="contact-grid">
+    <div>
+      <p class="contact-blurb reveal">Actively seeking full-time Data Scientist and ML Engineer roles. Whether you have a position or just want to talk data — I respond within 24 hours.</p>
+      <a href="/cdn-cgi/l/email-protection#1d6b7c706e7574777c737c7a7c707c2f255d7a707c7471337e7270" class="btn-primary reveal">✉ Send an email</a>
+    </div>
+    <div class="contact-links reveal">
+      <a href="/cdn-cgi/l/email-protection#6016010d1308090a010e0107010d01525820070d01090c4e030f0d" class="contact-link"><div class="link-icon">✉</div><span class="__cf_email__" data-cfemail="9debfcf0eef5f4f7fcf3fcfafcf0fcafa5ddfaf0fcf4f1b3fef2f0">[email&#160;protected]</span></a>
+      <a href="tel:+18326908156" class="contact-link"><div class="link-icon">☏</div>+1 (832) 690-8156</a>
+      <a href="https://linkedin.com/in/vamshijanagama" target="_blank" class="contact-link"><div class="link-icon">in</div>LinkedIn Profile</a>
+      <a href="https://github.com/vamshijanagama" target="_blank" class="contact-link"><div class="link-icon">gh</div>github.com/vamshijanagama</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Vamshi Krishna Janagama</span>
+  <span>MS Data Science · University of Houston</span>
+</footer>
+
+<button class="float-dl" onclick="window.print()">↓ Resume PDF</button>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── TYPING ──────────────────────────────────────────────────────────────
+const roles=['Data Scientist','ML Engineer','AI Builder','RAG Specialist','Data Engineer'];
+let ri=0,ci=0,del=false;
+const rt=document.getElementById('role-text');
+function type(){const w=roles[ri];if(!del){rt.textContent=w.slice(0,++ci);if(ci===w.length){del=true;setTimeout(type,1900);return;}}else{rt.textContent=w.slice(0,--ci);if(ci===0){del=false;ri=(ri+1)%roles.length;}}setTimeout(type,del?55:90);}
+type();
+
+// ── MODAL ────────────────────────────────────────────────────────────────
+const chartsInited={};
+function openShowcase(id){
+  document.getElementById('sc-'+id).classList.add('open');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>initCharts(id),150);
+}
+function closeShowcase(id){
+  document.getElementById('sc-'+id).classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.querySelectorAll('.showcase-overlay.open').forEach(m=>m.classList.remove('open'));document.body.style.overflow='';}});
+
+function switchTab(proj,tab,btn){
+  const panel=document.getElementById('sc-'+proj);
+  panel.querySelectorAll('.sc-content').forEach(c=>c.classList.remove('active'));
+  panel.querySelectorAll('.sc-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById(proj+'-'+tab).classList.add('active');
+  btn.classList.add('active');
+  if(tab==='charts') initCharts(proj);
+  if(tab==='demo'){if(proj==='rag') runRAGDemo(); if(proj==='spark') calcRisk(); if(proj==='anomaly') calcAnomaly();}
+}
+
+function switchCode(proj,file,btn){
+  const panel=document.getElementById('sc-'+proj);
+  panel.querySelectorAll('.code-tab').forEach(b=>b.classList.remove('active'));
+  panel.querySelectorAll('.code-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(proj+'-code-'+file).classList.add('active');
+}
+
+// ── CHARTS ───────────────────────────────────────────────────────────────
+function initCharts(id){
+  if(chartsInited[id]) return;
+  chartsInited[id]=true;
+  const C=(id,type,data,opts)=>{const el=document.getElementById(id);if(!el)return;new Chart(el,{type,data,options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#7a9e94',font:{family:'IBM Plex Mono',size:10},boxWidth:12}}},scales:{x:{ticks:{color:'#7a9e94',font:{family:'IBM Plex Mono',size:10}},grid:{color:'rgba(0,200,150,0.05)'}},y:{ticks:{color:'#7a9e94',font:{family:'IBM Plex Mono',size:10}},grid:{color:'rgba(0,200,150,0.05)'}}},  ...opts}});};
+
+  if(id==='rag'){
+    C('rag-metrics-chart','bar',{labels:['MRR@5','NDCG@10','Prec@5','Recall@10','F1'],datasets:[{label:'BM25 Baseline',data:[0.61,0.58,0.64,0.55,0.59],backgroundColor:'rgba(122,158,148,0.25)',borderColor:'rgba(122,158,148,0.5)',borderWidth:1},{label:'RAG Pipeline',data:[0.83,0.79,0.85,0.77,0.81],backgroundColor:'rgba(0,200,150,0.25)',borderColor:'#00c896',borderWidth:1}]},{scales:{y:{min:0,max:1}}});
+    C('rag-latency-chart','bar',{labels:['<50ms','50-100','100-150','150-200','200-300','>300ms'],datasets:[{label:'Query count',data:[12,89,187,143,52,17],backgroundColor:'rgba(0,200,150,0.3)',borderColor:'#00c896',borderWidth:1}]},{});
+    const sc=[];const ar=[];for(let i=0;i<40;i++){const f=0.6+Math.random()*0.35;sc.push({x:f,y:0.5+Math.random()*0.45});}for(let i=0;i<40;i++){const f=0.7+Math.random()*0.28;ar.push({x:f,y:0.6+Math.random()*0.38});}
+    C('rag-scatter-chart','scatter',{datasets:[{label:'Results',data:sc,backgroundColor:'rgba(0,200,150,0.4)',pointRadius:4},{label:'Ideal zone',data:ar,backgroundColor:'rgba(77,166,255,0.4)',pointRadius:4}]},{scales:{x:{min:0.5,max:1.05,title:{display:true,text:'Faithfulness',color:'#3a5a52',font:{size:9}}},y:{min:0.4,max:1.05,title:{display:true,text:'Answer Relevance',color:'#3a5a52',font:{size:9}}}}});
+    C('rag-doctype-chart','bar',{labels:['Technical','Reports','Manuals','FAQs','Emails'],datasets:[{label:'Precision@5',data:[0.88,0.84,0.82,0.79,0.71],backgroundColor:['rgba(0,200,150,0.3)','rgba(0,200,150,0.3)','rgba(0,200,150,0.3)','rgba(77,166,255,0.3)','rgba(255,107,107,0.3)'],borderColor:['#00c896','#00c896','#00c896','#4da6ff','#ff6b6b'],borderWidth:1}]},{scales:{y:{min:0.6,max:1}}});
+  }
+  if(id==='spark'){
+    C('spark-auc-chart','line',{labels:[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9],datasets:[{label:'XGBoost',data:[0.72,0.78,0.82,0.86,0.88,0.89,0.88,0.85,0.79],borderColor:'#ff6b6b',backgroundColor:'rgba(255,107,107,0.08)',tension:0.4,fill:true},{label:'LightGBM',data:[0.70,0.76,0.81,0.85,0.87,0.88,0.87,0.84,0.78],borderColor:'#4da6ff',backgroundColor:'rgba(77,166,255,0.08)',tension:0.4,fill:true},{label:'Ensemble ★',data:[0.75,0.80,0.84,0.88,0.91,0.90,0.89,0.86,0.81],borderColor:'#00c896',backgroundColor:'rgba(0,200,150,0.12)',tension:0.4,fill:true,borderWidth:2}]},{scales:{y:{min:0.6,max:1.0}}});
+    C('spark-shap-chart','bar',{labels:['credit_score','missed_pmts','util_rate','debt_ratio','days_since','income','balance','num_accounts','employment','avg_txn'],datasets:[{label:'Mean |SHAP|',data:[0.182,0.165,0.143,0.128,0.112,0.098,0.087,0.074,0.062,0.051],backgroundColor:['rgba(0,200,150,0.6)','rgba(0,200,150,0.5)','rgba(0,200,150,0.45)','rgba(77,166,255,0.4)','rgba(77,166,255,0.35)','rgba(255,211,61,0.4)','rgba(255,211,61,0.35)','rgba(255,107,107,0.3)','rgba(255,107,107,0.25)','rgba(122,158,148,0.3)'],borderWidth:0}]},{indexAxis:'y',scales:{x:{min:0,max:0.22},y:{ticks:{font:{size:9}}}}});
+    C('spark-cv-chart','bar',{labels:['Fold 1','Fold 2','Fold 3','Fold 4','Fold 5'],datasets:[{label:'AUC-ROC',data:[0.893,0.887,0.891,0.896,0.884],backgroundColor:'rgba(0,200,150,0.3)',borderColor:'#00c896',borderWidth:1}]},{scales:{y:{min:0.85,max:0.92}}});
+    C('spark-pr-chart','line',{labels:[0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0],datasets:[{label:'Ensemble',data:[1,0.97,0.94,0.91,0.87,0.82,0.76,0.68,0.57,0.43,0.18],borderColor:'#00c896',backgroundColor:'rgba(0,200,150,0.1)',tension:0.4,fill:true}]},{scales:{x:{title:{display:true,text:'Recall',color:'#3a5a52',font:{size:9}}},y:{title:{display:true,text:'Precision',color:'#3a5a52',font:{size:9}}}}});
+  }
+  if(id==='anomaly'){
+    C('anom-speed-chart','bar',{labels:['10K','100K','500K','1M','5M'],datasets:[{label:'Pandas (sec)',data:[2.1,18.4,94.2,210.5,1050],backgroundColor:'rgba(122,158,148,0.3)',borderColor:'rgba(122,158,148,0.5)',borderWidth:1},{label:'PySpark (sec)',data:[1.8,5.2,24.1,52.3,261],backgroundColor:'rgba(0,200,150,0.3)',borderColor:'#00c896',borderWidth:1}]},{scales:{y:{type:'logarithmic',title:{display:true,text:'Time (log scale)',color:'#3a5a52',font:{size:9}}},x:{title:{display:true,text:'Rows',color:'#3a5a52',font:{size:9}}}}});
+    C('anom-method-chart','bar',{labels:['IsolationForest','LOF','Statistical','Ensemble ★'],datasets:[{label:'Detection Rate',data:[0.887,0.862,0.801,0.954],backgroundColor:['rgba(255,107,107,0.35)','rgba(77,166,255,0.35)','rgba(255,211,61,0.35)','rgba(0,200,150,0.45)'],borderColor:['#ff6b6b','#4da6ff','#ffd93d','#00c896'],borderWidth:1},{label:'False Positive Rate',data:[0.048,0.039,0.052,0.028],backgroundColor:['rgba(255,107,107,0.15)','rgba(77,166,255,0.15)','rgba(255,211,61,0.15)','rgba(0,200,150,0.15)'],borderColor:['#ff6b6b','#4da6ff','#ffd93d','#00c896'],borderWidth:1}]},{scales:{y:{min:0,max:1.05}}});
+    const nd=Array.from({length:50},()=>({x:Math.random()*0.5,y:Math.floor(Math.random()*40)+5}));
+    const ad=Array.from({length:15},()=>({x:0.7+Math.random()*0.28,y:Math.floor(Math.random()*15)+1}));
+    C('anom-dist-chart','scatter',{datasets:[{label:'Normal',data:nd,backgroundColor:'rgba(0,200,150,0.5)',pointRadius:4},{label:'Anomalies',data:ad,backgroundColor:'rgba(255,107,107,0.7)',pointRadius:6}]},{scales:{x:{min:0,max:1.05,title:{display:true,text:'Anomaly Score',color:'#3a5a52',font:{size:9}}}}});
+    C('anom-roc-chart','line',{labels:[0,0.01,0.03,0.05,0.1,0.2,0.3,0.5,1.0],datasets:[{label:'Ensemble',data:[0,0.72,0.88,0.93,0.95,0.97,0.98,0.99,1.0],borderColor:'#00c896',backgroundColor:'rgba(0,200,150,0.1)',tension:0.4,fill:true},{label:'Random',data:[0,0.01,0.03,0.05,0.1,0.2,0.3,0.5,1.0],borderColor:'rgba(122,158,148,0.4)',borderDash:[4,4],tension:0}]},{scales:{x:{title:{display:true,text:'FPR',color:'#3a5a52',font:{size:9}}},y:{title:{display:true,text:'TPR',color:'#3a5a52',font:{size:9}}}}});
+  }
+}
+
+// ── RAG DEMO ─────────────────────────────────────────────────────────────
+const DOCS=[
+  {t:'ETL pipeline optimization with PySpark distributed data processing',b:0.92},
+  {t:'FAISS vector index construction and approximate nearest neighbor search',b:0.88},
+  {t:'Machine learning ensemble XGBoost LightGBM risk prediction model',b:0.85},
+  {t:'Retrieval-Augmented Generation with LLM context and grounding',b:0.83},
+  {t:'Anomaly detection using IsolationForest and LocalOutlierFactor',b:0.78},
+  {t:'MLflow experiment tracking model registry deployment workflow',b:0.72},
+  {t:'Power BI dashboard KPI monitoring operational analytics',b:0.65},
+  {t:'SHAP Shapley additive explanations feature importance ML',b:0.69},
+];
+function runRAGDemo(){
+  const q=document.getElementById('rag-q').value.toLowerCase();
+  const scored=DOCS.map(d=>{const hit=q.split(' ').filter(w=>w.length>2&&d.t.toLowerCase().includes(w)).length;return{...d,score:Math.min(0.99,Math.max(0.35,d.b+(Math.random()-0.5)*0.06+hit*0.04))};}).sort((a,b)=>b.score-a.score);
+  const c=document.getElementById('rag-results');c.innerHTML='';
+  scored.forEach((r,i)=>{const el=document.createElement('div');el.className='result-item'+(i===0?' top':'');el.innerHTML=`<span class="result-text">${r.t}</span><div style="display:flex;align-items:center;gap:0.5rem;flex-shrink:0"><span class="result-score">${r.score.toFixed(3)}</span><div class="result-bar-bg"><div class="result-bar-fill" style="width:0"></div></div></div>`;c.appendChild(el);setTimeout(()=>el.querySelector('.result-bar-fill').style.width=Math.round(r.score*100)+'%',60+i*70);});
+
+  // topk vs mmr
+  const topk=document.getElementById('topk-results');const mmr=document.getElementById('mmr-results');
+  topk.innerHTML='';mmr.innerHTML='';
+  [scored[0],scored[0],scored[1],scored[1]].forEach((r,i)=>{const el=document.createElement('div');el.style.cssText='font-size:0.7rem;color:var(--muted);padding:0.4rem 0.65rem;border:1px solid var(--border);margin-bottom:0.3rem;background:var(--bg)';el.textContent=r.t.slice(0,55)+'...';topk.appendChild(el);});
+  [scored[0],scored[2],scored[4],scored[6]].forEach((r,i)=>{const el=document.createElement('div');el.style.cssText='font-size:0.7rem;color:var(--muted);padding:0.4rem 0.65rem;border:1px solid rgba(0,200,150,0.25);margin-bottom:0.3rem;background:var(--bg)';el.textContent=r.t.slice(0,55)+'...';mmr.appendChild(el);});
+}
+setTimeout(runRAGDemo,300);
+
+// ── RISK DEMO ─────────────────────────────────────────────────────────────
+function calcRisk(){
+  const credit=parseInt(document.getElementById('sh-credit').value);
+  const util=parseInt(document.getElementById('sh-util').value)/100;
+  const missed=parseInt(document.getElementById('sh-missed').value);
+  const debt=parseInt(document.getElementById('sh-debt').value)/100;
+  const days=parseInt(document.getElementById('sh-days').value);
+  document.getElementById('sv-credit').textContent=credit;
+  document.getElementById('sv-util').textContent=Math.round(util*100)+'%';
+  document.getElementById('sv-missed').textContent=missed;
+  document.getElementById('sv-debt').textContent=Math.round(debt*100)+'%';
+  document.getElementById('sv-days').textContent=days;
+  const raw=(credit<580?0.35:credit<650?0.2:0.05)+(util>0.8?0.25:util>0.5?0.15:0.03)+(missed>3?0.2:missed>1?0.12:0.02)+(debt>0.5?0.18:debt>0.3?0.1:0.02)+(days>90?0.1:0.02);
+  const score=Math.min(0.99,Math.max(0.02,raw+(Math.random()-0.5)*0.02));
+  const sc=Math.round(score*100)/100;
+  const pct=Math.round(sc*100);
+  document.getElementById('risk-score').textContent=sc.toFixed(2);
+  document.getElementById('risk-bar').style.width=pct+'%';
+  const se=document.getElementById('risk-score');const le=document.getElementById('risk-label');const be=document.getElementById('risk-bar');
+  if(sc>0.65){se.style.color='#ff6b6b';le.textContent='HIGH RISK';le.style.color='#ff6b6b';be.style.background='#ff6b6b';}
+  else if(sc>0.35){se.style.color='#ffd93d';le.textContent='MEDIUM RISK';le.style.color='#ffd93d';be.style.background='#ffd93d';}
+  else{se.style.color='#00c896';le.textContent='LOW RISK';le.style.color='#00c896';be.style.background='#00c896';}
+  // shap bars
+  const feats=[['Credit Score',Math.abs(0.35-(credit/850)*0.35),'#00c896'],['Utilisation',util*0.25,'#ff6b6b'],['Missed Pmts',(missed/10)*0.2,'#ffd93d'],['Debt Ratio',debt*0.18,'#4da6ff'],['Days Since',Math.min(days/365,1)*0.1,'#c77dff']];
+  const max=Math.max(...feats.map(f=>f[1]));
+  document.getElementById('shap-bars').innerHTML=feats.map(([n,v,c])=>`<div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.4rem"><span style="font-size:0.68rem;color:var(--muted);min-width:110px">${n}</span><div style="flex:1;height:4px;background:var(--border)"><div style="height:100%;background:${c};width:${Math.round(v/max*100)}%;transition:width 0.5s"></div></div><span style="font-size:0.65rem;color:${c};min-width:36px;text-align:right">+${v.toFixed(3)}</span></div>`).join('');
+}
+calcRisk();
+
+// ── ANOMALY DEMO ──────────────────────────────────────────────────────────
+function calcAnomaly(){
+  const v=parseInt(document.getElementById('a-val').value)/100;
+  const f=parseInt(document.getElementById('a-freq').value)/100;
+  const d=parseInt(document.getElementById('a-dev').value)/100;
+  const vel=parseInt(document.getElementById('a-vel').value)/100;
+  document.getElementById('av-val').textContent=Math.round(v*100);
+  document.getElementById('av-freq').textContent=Math.round(f*100);
+  document.getElementById('av-dev').textContent=Math.round(d*100);
+  document.getElementById('av-vel').textContent=Math.round(vel*100);
+  const if_s=Math.min(0.99,v*0.4+f*0.2+d*0.25+vel*0.15);
+  const lof_s=Math.min(0.99,v*0.3+f*0.3+d*0.2+vel*0.2);
+  const stat_s=Math.min(0.99,v*0.25+f*0.15+d*0.45+vel*0.15);
+  const ensemble=Math.round((0.5*if_s+0.3*lof_s+0.2*stat_s)*100)/100;
+  const pct=Math.round(ensemble*100);
+  document.getElementById('anom-score').textContent=ensemble.toFixed(2);
+  document.getElementById('if-score').textContent=if_s.toFixed(2);
+  document.getElementById('lof-score').textContent=lof_s.toFixed(2);
+  document.getElementById('stat-score').textContent=stat_s.toFixed(2);
+  document.getElementById('anom-bar').style.width=pct+'%';
+  const sc=document.getElementById('anom-score');const st=document.getElementById('anom-status');const ba=document.getElementById('anom-bar');
+  if(ensemble>=0.85){sc.style.color='#ff6b6b';st.textContent='⚠ ANOMALY FLAGGED';st.style.color='#ff6b6b';ba.style.background='#ff6b6b';}
+  else if(ensemble>=0.5){sc.style.color='#ffd93d';st.textContent='SUSPICIOUS';st.style.color='#ffd93d';ba.style.background='#ffd93d';}
+  else{sc.style.color='#00c896';st.textContent='NORMAL';st.style.color='#00c896';ba.style.background='#00c896';}
+}
+calcAnomaly();
+
+// ── EXPERIENCE ────────────────────────────────────────────────────────────
+const EXP_DATA = {
+  uh: [
+    {title:"Built ETL pipelines integrating 5+ operational data sources",detail:"Designed Python + SQL ETL pipelines pulling from 5 disparate operational systems (student records, scheduling, performance tracking, attendance, finance). Processed 100K+ records per batch. Used Pandas for transformation, SQLAlchemy for DB writes. Reduced reporting lag from 3 days to same-day."},
+    {title:"SQL data models → 35% query performance improvement",detail:"Re-designed the analytics schema from a denormalized flat structure to a proper star schema with fact/dimension tables. Added composite indexes on frequently joined columns. Optimized 12 high-frequency queries — average query time dropped from 8.4s to 5.5s. Documented all models in dbt."},
+    {title:"Power BI dashboards for leadership KPI monitoring",detail:"Designed and shipped 4 Power BI dashboards tracking athlete academic performance, attendance trends, scholarship utilization, and departmental KPIs. Set up automated data refresh via scheduled Python scripts. Used DAX for calculated measures. Presented directly to the Athletic Director."},
+    {title:"Automated preprocessing pipelines → 30% time savings",detail:"Replaced 6 hours/week of manual Excel preprocessing with Python automation: null imputation (median/mode per cohort), outlier flagging (IQR), feature encoding, and train/test split generation. Added data validation assertions that catch schema changes automatically before they break downstream models."},
+    {title:"FAISS semantic search across institutional datasets",detail:"Implemented vector embedding–based semantic search using OpenAI embeddings + FAISS Flat index over 50K institutional documents (policies, course descriptions, athlete profiles). Enabled natural-language queries instead of complex SQL JOINs. Improved retrieval precision by ~40%."}
+  ],
+  kc: [
+    {title:"Python + SQL pipelines with 90% data quality improvement",detail:"Built end-to-end data ingestion pipelines for pharmaceutical sales data across 200+ SKUs and 50 distributors. Added automated validation checks: null rate monitoring, referential integrity tests, duplicate detection, and schema validation. Reduced data quality issues from ~40 per week to under 4 — a 90% improvement tracked via MLflow data quality metrics."},
+    {title:"Scikit-learn predictive models → 18% forecasting accuracy gain",detail:"Replaced a rule-based demand forecasting system with an ensemble of Random Forest + GradientBoosting models trained on 2 years of sales history, seasonality features, and regional demand signals. Cross-validated with TimeSeriesSplit. AUC improved from 0.71 (rules) to 0.84 (ML). Deployed via FastAPI, used in monthly planning meetings."},
+    {title:"Sales & operational analytics for pricing strategy",detail:"Ran cohort analysis, price elasticity modelling, and margin attribution across product lines. Identified 3 underperforming SKUs with negative contribution margin after logistics — flagged for repricing. Analysis directly informed a pricing review that increased gross margin by 4% in Q3. Used Python (Pandas, Seaborn) + Tableau for executive presentations."},
+    {title:"MLflow experiment tracking for model reproducibility",detail:"Set up MLflow tracking server logging all experiments: hyperparameters, training metrics, confusion matrices, feature importance plots, and serialized model artifacts. Enabled the team to reproduce any model run from git commit + MLflow run ID. Implemented model registry with staging/production promotion workflow."}
+  ]
+};
+
+function buildBullets(containerId, bullets) {
+  const container = document.getElementById(containerId);
+  if (!container || container.children.length > 0) return;
+  bullets.forEach((b) => {
+    const el = document.createElement('div');
+    el.className = 'exp-bullet-item';
+    el.innerHTML = `<div class="exp-bullet-header" onclick="toggleBullet(this.parentElement)"><span class="exp-bullet-icon">›</span><span class="exp-bullet-title">${b.title}</span></div><div class="exp-bullet-detail">${b.detail}</div>`;
+    container.appendChild(el);
+  });
+}
+
+function toggleBullet(el) { el.classList.toggle('open'); }
+
+function selectExp(idx) {
+  [0,1].forEach(i => {
+    const nav=document.getElementById('exp-nav-'+i);
+    const bar=document.getElementById('exp-bar-'+i);
+    const dot=document.getElementById('exp-dot-'+i);
+    const panel=document.getElementById('exp-panel-'+i);
+    if(i===idx){nav.style.opacity='1';bar.style.opacity='1';dot.style.opacity='1';panel.style.display='flex';}
+    else{nav.style.opacity='0.45';bar.style.opacity='0';dot.style.opacity='0';panel.style.display='none';}
+  });
+  if(idx===0) buildBullets('uh-bullets', EXP_DATA.uh);
+  if(idx===1) buildBullets('kc-bullets', EXP_DATA.kc);
+  document.getElementById('exp-panel-'+idx).querySelectorAll('.exp-counter').forEach(c => animateCounter(c));
+}
+
+function animateCounter(el) {
+  const target=parseInt(el.dataset.target);let current=0;
+  const step=Math.ceil(target/40);el.textContent='0%';
+  const timer=setInterval(()=>{current=Math.min(current+step,target);el.textContent=current+'%';if(current>=target)clearInterval(timer);},28);
+}
+
+const expObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){buildBullets('uh-bullets',EXP_DATA.uh);document.getElementById('exp-panel-0').querySelectorAll('.exp-counter').forEach(c=>animateCounter(c));expObs.disconnect();}});
+},{threshold:0.15});
+const expContainer=document.getElementById('exp-container');
+if(expContainer) expObs.observe(expContainer);
+
+// ── REVEAL + SKILLS ───────────────────────────────────────────────────────
+const obs=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classLi
